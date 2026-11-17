@@ -1,0 +1,325 @@
+[
+  {
+    "id": "bev_pepsi",
+    "name": "Pepsi 1.5L",
+    "category": "ichimliklar",
+    "price": 13000,
+    "brand": "pepsi",
+    "color": "#004b93",
+    "shape": "bottle",
+    "size": { "w": 0.22, "h": 0.65, "d": 0.22 }
+  },
+  {
+    "id": "bev_cola",
+    "name": "Coca-Cola 1.5L",
+    "category": "ichimliklar",
+    "price": 14000,
+    "brand": "cola",
+    "color": "#e11d48",
+    "shape": "bottle",
+    "size": { "w": 0.22, "h": 0.65, "d": 0.22 }
+  },
+  {
+    "id": "bev_fanta",
+    "name": "Fanta Orange 1.5L",
+    "category": "ichimliklar",
+    "price": 13500,
+    "brand": "fanta",
+    "color": "#ea580c",
+    "shape": "bottle",
+    "size": { "w": 0.22, "h": 0.65, "d": 0.22 }
+  },
+  {
+    "id": "bev_sprite",
+    "name": "Sprite 1.5L",
+    "category": "ichimliklar",
+    "price": 13500,
+    "brand": "sprite",
+    "color": "#15803d",
+    "shape": "bottle",
+    "size": { "w": 0.22, "h": 0.65, "d": 0.22 }
+  },
+  {
+    "id": "bev_water_montella",
+    "name": "Montella Suv 1.5L",
+    "category": "ichimliklar",
+    "price": 4500,
+    "brand": "water",
+    "color": "#0284c7",
+    "shape": "bottle",
+    "size": { "w": 0.2, "h": 0.62, "d": 0.2 }
+  },
+  {
+    "id": "bev_water_nestle",
+    "name": "Nestlé Pure Life 1.5L",
+    "category": "ichimliklar",
+    "price": 5000,
+    "brand": "water",
+    "color": "#0284c7",
+    "shape": "bottle",
+    "size": { "w": 0.2, "h": 0.62, "d": 0.2 }
+  },
+  {
+    "id": "bev_juice_dena",
+    "name": "Dena Olma Sharbat 1L",
+    "category": "ichimliklar",
+    "price": 13500,
+    "brand": "dena",
+    "color": "#65a30d",
+    "shape": "box",
+    "size": { "w": 0.25, "h": 0.55, "d": 0.2 }
+  },
+  {
+    "id": "bev_juice_bliss",
+    "name": "Bliss Olcha Sharbat 1L",
+    "category": "ichimliklar",
+    "price": 15000,
+    "brand": "dena",
+    "color": "#9f1239",
+    "shape": "box",
+    "size": { "w": 0.25, "h": 0.55, "d": 0.2 }
+  },
+
+  {
+    "id": "sweet_snickers",
+    "name": "Snickers Super 80g",
+    "category": "shirinliklar",
+    "price": 9000,
+    "brand": "snickers",
+    "color": "#451a03",
+    "shape": "box",
+    "size": { "w": 0.32, "h": 0.12, "d": 0.18 }
+  },
+  {
+    "id": "sweet_milka",
+    "name": "Milka Alpskiy 100g",
+    "category": "shirinliklar",
+    "price": 16000,
+    "brand": "milka",
+    "color": "#7c3aed",
+    "shape": "box",
+    "size": { "w": 0.32, "h": 0.12, "d": 0.2 }
+  },
+  {
+    "id": "sweet_nutella",
+    "name": "Nutella Pastasi 350g",
+    "category": "shirinliklar",
+    "price": 48000,
+    "brand": "nutella",
+    "color": "#ffffff",
+    "shape": "can",
+    "size": { "w": 0.26, "h": 0.34, "d": 0.26 }
+  },
+  {
+    "id": "sweet_oreo",
+    "name": "Oreo Pechyoniyasi 154g",
+    "category": "shirinliklar",
+    "price": 11500,
+    "brand": "oreo",
+    "color": "#0284c7",
+    "shape": "cylinder",
+    "size": { "w": 0.2, "h": 0.48, "d": 0.2 }
+  },
+  {
+    "id": "sweet_chocopie",
+    "name": "Lotte Choco Pie 12x",
+    "category": "shirinliklar",
+    "price": 27000,
+    "brand": "chocopie",
+    "color": "#b91c1c",
+    "shape": "box",
+    "size": { "w": 0.38, "h": 0.25, "d": 0.24 }
+  },
+  {
+    "id": "sweet_twix",
+    "name": "Twix Xtra 75g",
+    "category": "shirinliklar",
+    "price": 9000,
+    "brand": "snickers",
+    "color": "#d97706",
+    "shape": "box",
+    "size": { "w": 0.32, "h": 0.12, "d": 0.18 }
+  },
+  {
+    "id": "sweet_kitkat",
+    "name": "KitKat 4 Finger 45g",
+    "category": "shirinliklar",
+    "price": 8500,
+    "brand": "chocopie",
+    "color": "#dc2626",
+    "shape": "box",
+    "size": { "w": 0.3, "h": 0.12, "d": 0.18 }
+  },
+  {
+    "id": "sweet_mms",
+    "name": "M&M's Yong'oqli 90g",
+    "category": "shirinliklar",
+    "price": 12000,
+    "brand": "oreo",
+    "color": "#ca8a04",
+    "shape": "box",
+    "size": { "w": 0.28, "h": 0.22, "d": 0.15 }
+  },
+
+  {
+    "id": "canned_tuna",
+    "name": "Tunes Baliq Konservasi",
+    "category": "konserva",
+    "price": 24000,
+    "brand": "tuna",
+    "color": "#0284c7",
+    "shape": "can",
+    "size": { "w": 0.26, "h": 0.18, "d": 0.26 }
+  },
+  {
+    "id": "canned_corn",
+    "name": "Bonduelle Jo'xori 340g",
+    "category": "konserva",
+    "price": 18000,
+    "brand": "corn",
+    "color": "#15803d",
+    "shape": "can",
+    "size": { "w": 0.24, "h": 0.3, "d": 0.24 }
+  },
+  {
+    "id": "canned_peas",
+    "name": "Bonduelle Yashil No'xat",
+    "category": "konserva",
+    "price": 17500,
+    "brand": "peas",
+    "color": "#15803d",
+    "shape": "can",
+    "size": { "w": 0.24, "h": 0.3, "d": 0.24 }
+  },
+  {
+    "id": "canned_olives",
+    "name": "Qora Zaytun 300g",
+    "category": "konserva",
+    "price": 22000,
+    "brand": "olives",
+    "color": "#1e293b",
+    "shape": "can",
+    "size": { "w": 0.22, "h": 0.32, "d": 0.22 }
+  },
+  {
+    "id": "canned_pickles",
+    "name": "Tuzlangan Bodring 720g",
+    "category": "konserva",
+    "price": 19000,
+    "brand": "pickles",
+    "color": "#166534",
+    "shape": "can",
+    "size": { "w": 0.26, "h": 0.42, "d": 0.26 }
+  },
+  {
+    "id": "canned_mushrooms",
+    "name": "Marinadlangan Qo'ziqorin",
+    "category": "konserva",
+    "price": 26000,
+    "brand": "pickles",
+    "color": "#ca8a04",
+    "shape": "can",
+    "size": { "w": 0.25, "h": 0.38, "d": 0.25 }
+  },
+  {
+    "id": "canned_sardines",
+    "name": "Sardina Moydagi Baliq",
+    "category": "konserva",
+    "price": 21000,
+    "brand": "tuna",
+    "color": "#0369a1",
+    "shape": "can",
+    "size": { "w": 0.28, "h": 0.16, "d": 0.24 }
+  },
+  {
+    "id": "canned_paste",
+    "name": "Pomidor Pastasi 800g",
+    "category": "konserva",
+    "price": 23000,
+    "brand": "corn",
+    "color": "#b91c1c",
+    "shape": "can",
+    "size": { "w": 0.26, "h": 0.38, "d": 0.26 }
+  },
+
+  {
+    "id": "grocery_oil",
+    "name": "Oltin Kalit Yog' 1L",
+    "category": "baqqollik",
+    "price": 18500,
+    "brand": "oil",
+    "color": "#eab308",
+    "shape": "bottle",
+    "size": { "w": 0.22, "h": 0.58, "d": 0.22 }
+  },
+  {
+    "id": "grocery_rice",
+    "name": "Lazer Guruch 1kg",
+    "category": "baqqollik",
+    "price": 26000,
+    "brand": "rice",
+    "color": "#f8fafc",
+    "shape": "box",
+    "size": { "w": 0.28, "h": 0.45, "d": 0.2 }
+  },
+  {
+    "id": "grocery_pasta",
+    "name": "Makfa Spagetti 500g",
+    "category": "baqqollik",
+    "price": 11000,
+    "brand": "makfa",
+    "color": "#15803d",
+    "shape": "box",
+    "size": { "w": 0.2, "h": 0.52, "d": 0.16 }
+  },
+  {
+    "id": "grocery_tea",
+    "name": "Tess Choy 100g",
+    "category": "baqqollik",
+    "price": 17000,
+    "brand": "tea",
+    "color": "#dc2626",
+    "shape": "box",
+    "size": { "w": 0.24, "h": 0.35, "d": 0.18 }
+  },
+  {
+    "id": "grocery_coffee",
+    "name": "Nescafe Classic 100g",
+    "category": "baqqollik",
+    "price": 29000,
+    "brand": "nescafe",
+    "color": "#b91c1c",
+    "shape": "can",
+    "size": { "w": 0.22, "h": 0.38, "d": 0.22 }
+  },
+  {
+    "id": "grocery_sugar",
+    "name": "Shakar Oq 1kg",
+    "category": "baqqollik",
+    "price": 14000,
+    "brand": "rice",
+    "color": "#f1f5f9",
+    "shape": "box",
+    "size": { "w": 0.26, "h": 0.42, "d": 0.2 }
+  },
+  {
+    "id": "grocery_flour",
+    "name": "Oltin Don Un 2kg",
+    "category": "baqqollik",
+    "price": 19000,
+    "brand": "rice",
+    "color": "#fef08a",
+    "shape": "box",
+    "size": { "w": 0.3, "h": 0.46, "d": 0.22 }
+  },
+  {
+    "id": "grocery_salt",
+    "name": "Osh Tuzi Yodlangan 1kg",
+    "category": "baqqollik",
+    "price": 3000,
+    "brand": "rice",
+    "color": "#38bdf8",
+    "shape": "box",
+    "size": { "w": 0.24, "h": 0.38, "d": 0.18 }
+  }
+]

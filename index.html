@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="uz">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Mini Market - 3D Supermarket</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./src/style.css" />
+  </head>
+  <body>
+    <!-- 3D Sahna va CSS2D Konteyneri -->
+    <div id="canvas-container"></div>
+
+    <!-- Markaziy nishon (Crosshair) -->
+    <div id="crosshair"></div>
+
+    <!-- Yo'riqnoma paneli (O'ng yuqori) -->
+    <div id="instructions" class="glass-panel">
+      <div class="panel-header">
+        <span class="icon">🎮</span> Boshqaruv
+      </div>
+      <ul class="control-list">
+        <li><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> yoki <kbd>←</kbd><kbd>↑</kbd><kbd>→</kbd><kbd>↓</kbd> : Harakatlanish</li>
+        <li><span class="key-badge">Sichqoncha</span> : Atrofga qarash (bosing)</li>
+        <li><span class="key-badge">Chap tugma</span> : Mahsulotni tanlash</li>
+        <li><kbd>E</kbd> yoki <kbd>Enter</kbd> : Savatga tezkor qo'shish</li>
+      </ul>
+      <div class="tip-text">💡 Ekranga bosib kamerani faollashtiring (Pointer Lock)</div>
+    </div>
+
+    <!-- Yaqinlashganda chiquvchi interaktiv xabar / tugma -->
+    <div id="interaction-prompt" class="hidden">
+      <div class="prompt-card glass-panel">
+        <div class="prompt-info">
+          <span id="prompt-name">Mahsulot</span>
+          <span id="prompt-price" class="badge-price">0 so'm</span>
+        </div>
+        <button id="prompt-add-btn" class="btn btn-primary">
+          🛒 Savatga qo'shish <kbd>E</kbd>
+        </button>
+      </div>
+    </div>
+
+    <!-- Savat paneli (Chap pastki qism) -->
+    <div id="cart-panel" class="glass-panel">
+      <div class="cart-header" id="cart-toggle-btn">
+        <div class="cart-title">
+          <span class="icon">🛒</span> Savatingiz
+          <span id="cart-count-badge" class="count-badge">0</span>
+        </div>
+        <button id="cart-minimize-btn" class="icon-btn" title="Kattalashtirish/Kichraytirish">▾</button>
+      </div>
+
+      <div id="cart-body" class="cart-body">
+        <div id="cart-empty-message" class="cart-empty">
+          Savat hozircha bo'sh.<br>Javonlardan mahsulotlarni tanlang!
+        </div>
+        <div id="cart-items" class="cart-items-list">
+          <!-- Dinamik qo'shiladi -->
+        </div>
+        
+        <div class="cart-footer">
+          <div class="total-row">
+            <span>Jami summa:</span>
+            <span id="cart-total-price" class="total-price">0 so'm</span>
+          </div>
+          <div class="cart-actions">
+            <button id="cart-clear-btn" class="btn btn-danger-outline" title="Savatni tozalash">Tozalash</button>
+            <button id="cart-checkout-btn" class="btn btn-success">Buyurtma berish</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bildirishnomalar (Toast notifications) konteyneri -->
+    <div id="toast-container"></div>
+
+    <!-- Mobil ekran uchun sensorli boshqaruv joystik va tugmalari -->
+    <div id="mobile-controls" class="mobile-only">
+      <div id="joystick-zone">
+        <div id="joystick-base">
+          <div id="joystick-stick"></div>
+        </div>
+      </div>
+      <button id="mobile-action-btn" class="btn btn-primary mobile-btn">
+        🛒 Olish
+      </button>
+    </div>
+
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>

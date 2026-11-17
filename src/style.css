@@ -1,0 +1,586 @@
+:root {
+  --bg-glass: rgba(15, 23, 42, 0.85);
+  --bg-glass-hover: rgba(30, 41, 59, 0.95);
+  --border-glass: rgba(255, 255, 255, 0.15);
+  --border-glass-bright: rgba(255, 255, 255, 0.35);
+  --primary: #dc2626; /* Supermarket qizil aksenti */
+  --primary-hover: #b91c1c;
+  --success: #10b981;
+  --success-hover: #059669;
+  --danger: #ef4444;
+  --text-main: #ffffff;
+  --text-muted: #94a3b8;
+  --shadow-lg: 0 14px 35px rgba(0, 0, 0, 0.38);
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-full: 9999px;
+  --transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+body, html {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: #f1f5f9;
+  color: var(--text-main);
+}
+
+#canvas-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.glass-panel {
+  background: var(--bg-glass);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  color: var(--text-main);
+  transition: var(--transition);
+}
+
+/* Markaziy nishon */
+#crosshair {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 2px solid rgba(0, 0, 0, 0.6);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 10;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+#crosshair.targeted {
+  transform: translate(-50%, -50%) scale(2.0);
+  background: #38bdf8;
+  border-color: #0369a1;
+}
+
+kbd {
+  display: inline-block;
+  padding: 2px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #f8fafc;
+  background-color: #334155;
+  border: 1px solid #475569;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  margin: 0 2px;
+}
+
+.key-badge {
+  background: rgba(255, 255, 255, 0.18);
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-primary {
+  background-color: #dc2626;
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background-color: #b91c1c;
+  transform: translateY(-1px);
+}
+
+.btn-success {
+  background-color: var(--success);
+  color: #ffffff;
+}
+
+.btn-success:hover {
+  background-color: var(--success-hover);
+}
+
+.btn-danger-outline {
+  background: transparent;
+  color: var(--danger);
+  border: 1px solid var(--danger);
+}
+
+.btn-danger-outline:hover {
+  background: var(--danger);
+  color: #ffffff;
+}
+
+.icon-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 16px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: var(--transition);
+}
+
+.icon-btn:hover {
+  color: var(--text-main);
+  background: rgba(255,255,255,0.1);
+}
+
+/* O'ng yuqori yo'riqnoma */
+#instructions {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 290px;
+  padding: 16px 20px;
+  z-index: 20;
+}
+
+.panel-header {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #f87171;
+  letter-spacing: 0.3px;
+}
+
+.control-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13px;
+  color: #e2e8f0;
+}
+
+.control-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tip-text {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-glass);
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* Interaktiv tanlash oynasi */
+#interaction-prompt {
+  position: absolute;
+  bottom: 85px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 25;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+#interaction-prompt.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 15px);
+}
+
+.prompt-card {
+  padding: 14px 22px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  border: 1px solid var(--border-glass-bright);
+}
+
+.prompt-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+#prompt-name {
+  font-size: 16px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.badge-price {
+  font-size: 15px;
+  font-weight: 700;
+  color: #34d399;
+}
+
+/* Savat paneli */
+#cart-panel {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  width: 360px;
+  max-width: calc(100vw - 48px);
+  z-index: 20;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#cart-panel.minimized .cart-body {
+  display: none;
+}
+
+.cart-header {
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border-glass);
+}
+
+.cart-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.count-badge {
+  background: #dc2626;
+  color: white;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.cart-body {
+  padding: 14px 18px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cart-empty {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 13px;
+  padding: 20px 0;
+  line-height: 1.5;
+}
+
+.cart-items-list {
+  max-height: 220px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-right: 4px;
+}
+
+.cart-items-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.cart-items-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 4px;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+}
+
+.cart-item-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+  margin-right: 8px;
+}
+
+.cart-item-name {
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cart-item-price {
+  font-size: 12px;
+  color: #34d399;
+}
+
+.cart-item-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.qty-btn {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 700;
+  transition: var(--transition);
+}
+
+.qty-btn:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.cart-item-qty {
+  font-size: 13px;
+  font-weight: 700;
+  min-width: 20px;
+  text-align: center;
+}
+
+.remove-btn {
+  background: transparent;
+  border: none;
+  color: #f87171;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 2px 4px;
+  margin-left: 4px;
+  transition: var(--transition);
+}
+
+.remove-btn:hover {
+  color: #ef4444;
+  transform: scale(1.15);
+}
+
+.cart-footer {
+  border-top: 1px solid var(--border-glass);
+  padding-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.total-price {
+  font-size: 18px;
+  font-weight: 800;
+  color: #38bdf8;
+}
+
+.cart-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.cart-actions .btn {
+  flex: 1;
+}
+
+/* Toast xabarlari */
+#toast-container {
+  position: absolute;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+  z-index: 100;
+}
+
+.toast {
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  color: #ffffff;
+  padding: 10px 20px;
+  border-radius: var(--radius-full);
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  animation: toastFade 2.5s ease forwards;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@keyframes toastFade {
+  0% { opacity: 0; transform: translateY(-12px) scale(0.95); }
+  12% { opacity: 1; transform: translateY(0) scale(1); }
+  85% { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(-10px) scale(0.95); }
+}
+
+/* 🎯 MAHSULOT OLDIGA BORGANDA KO'RINUVCHI YORLIQLAR (CSS2D) */
+.product-tag {
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  padding: 4px 10px;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  pointer-events: none;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  transform: translateY(-6px);
+  transition: opacity 0.25s ease, transform 0.25s ease, border-color 0.2s ease;
+}
+
+.product-tag-name {
+  color: #ffffff;
+  font-size: 11px;
+}
+
+.product-tag-price {
+  color: #34d399;
+  font-weight: 800;
+  font-size: 12px;
+}
+
+/* Masofadan uzoqda bo'lganda yashirish */
+.product-tag.hidden-by-distance {
+  opacity: 0 !important;
+  pointer-events: none;
+  transform: translateY(2px) scale(0.85);
+}
+
+.product-tag.highlighted {
+  border-color: #38bdf8;
+  background: rgba(30, 58, 138, 0.95);
+  transform: translateY(-10px) scale(1.15);
+  box-shadow: 0 6px 20px rgba(56, 189, 248, 0.4);
+}
+
+/* Mobil Boshqaruv */
+.mobile-only {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  #instructions {
+    top: 10px;
+    right: 10px;
+    width: 220px;
+    padding: 10px 12px;
+    font-size: 11px;
+  }
+  
+  .control-list {
+    display: none;
+  }
+
+  #cart-panel {
+    bottom: 90px;
+    left: 10px;
+    width: calc(100vw - 20px);
+  }
+
+  .mobile-only {
+    display: block;
+  }
+
+  #joystick-zone {
+    position: absolute;
+    bottom: 24px;
+    left: 24px;
+    width: 110px;
+    height: 110px;
+    z-index: 50;
+  }
+
+  #joystick-base {
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    position: relative;
+    touch-action: none;
+  }
+
+  #joystick-stick {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 44px;
+    height: 44px;
+    background: rgba(220, 38, 38, 0.85);
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  #mobile-action-btn {
+    position: absolute;
+    bottom: 30px;
+    right: 24px;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    font-size: 14px;
+    z-index: 50;
+    box-shadow: 0 4px 16px rgba(220, 38, 38, 0.5);
+  }
+}
