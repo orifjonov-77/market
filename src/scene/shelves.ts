@@ -1,6 +1,5 @@
 import * as THREE from 'three';
 import { ProductItem } from '../types';
-import productsData from '../data/products.json';
 import { LabelManager } from './labels';
 import { ProductModelFactory } from './productFactory';
 
@@ -11,11 +10,26 @@ export interface InteractiveProduct {
 }
 
 /**
- * Haqiqiy KORZINKA Supermarketining parallel va to'liq oraliqli (Aisle) javonlar tizimi.
- * - Har bir javon ikki tomonlama (Double-Sided): old tomoni ham, orqa tomoni ham mahsulotlar bilan to'la!
- * - Javonlar orasidagi masofa keng (3.2 metr), odam bemalol aravacha bilan aylanib yuradi.
- * - Hech qanday bo'sh devor quti yo'q: Sut mahsulotlari ham xuddi boshqalaridek haqiqiy ochiq javonlarda turadi.
- * - Go'sht bo'limi to'g'ri o'rnatilgan.
+ * Supermarketda xuddi rasmda ko'rsatganingizdek 2 TA KATTA MUSTAQIL JAVON QATORI:
+ *
+ * 1-JAVON (O'ng tomonda): "🛒 ICHIMLIKLAR VA SULAR 🛒"
+ * 6-qavat: Nestlé Pure Life 1.5L
+ * 5-qavat: Montella 1.5L
+ * 4-qavat: Sprite 1.5L
+ * 3-qavat: Fanta Orange 1.5L
+ * 2-qavat: Coca-Cola 1.5L
+ * 1-qavat: Pepsi 1.5L
+ *
+ * 2-JAVON (Chap tomonda): "🛒 SHIRINLIKLAR VA PECHYONELAR 🛒"
+ * 6-qavat: Twix Xtra 75g
+ * 5-qavat: Lotte Choco-Pie 12x
+ * 4-qavat: Oreo Original 154g
+ * 3-qavat: Nutella Pastasi 350g
+ * 2-qavat: Milka Alpskiy 100g
+ * 1-qavat: Snickers Super 80g
+ *
+ * Ikkala javon ham ikki tomonlama (old va orqasi to'la), bir-biriga yopishmagan,
+ * o'rtada 8 metrli keng chiroyli supermarket yo'lagi bor!
  */
 export class ShelvesManager {
   private scene: THREE.Scene;
@@ -24,55 +38,174 @@ export class ShelvesManager {
   public productMeshes: InteractiveProduct[] = [];
   public clickableMeshes: THREE.Object3D[] = [];
 
+  // 1-JAVON UCHUN ICHIMLIKLAR RO'YXATI (1-qavatdan 6-qavatgacha)
+  private drinkProducts: ProductItem[] = [
+    {
+      id: 'pepsi_15',
+      name: 'Pepsi 1.5L',
+      category: 'ichimliklar',
+      price: 13000,
+      brand: 'pepsi',
+      color: '#004b93',
+      shape: 'bottle',
+      size: { w: 0.22, h: 0.65, d: 0.22 },
+      korzinkaPlacement: 'ambient_shelf'
+    },
+    {
+      id: 'cola_15',
+      name: 'Coca-Cola 1.5L',
+      category: 'ichimliklar',
+      price: 14000,
+      brand: 'cola',
+      color: '#e11d48',
+      shape: 'bottle',
+      size: { w: 0.22, h: 0.65, d: 0.22 },
+      korzinkaPlacement: 'ambient_shelf'
+    },
+    {
+      id: 'fanta_15',
+      name: 'Fanta Orange 1.5L',
+      category: 'ichimliklar',
+      price: 13500,
+      brand: 'fanta',
+      color: '#ea580c',
+      shape: 'bottle',
+      size: { w: 0.22, h: 0.65, d: 0.22 },
+      korzinkaPlacement: 'ambient_shelf'
+    },
+    {
+      id: 'sprite_15',
+      name: 'Sprite 1.5L',
+      category: 'ichimliklar',
+      price: 13500,
+      brand: 'sprite',
+      color: '#15803d',
+      shape: 'bottle',
+      size: { w: 0.22, h: 0.65, d: 0.22 },
+      korzinkaPlacement: 'ambient_shelf'
+    },
+    {
+      id: 'montella_15',
+      name: 'Montella Suv 1.5L',
+      category: 'ichimliklar',
+      price: 4500,
+      brand: 'montella',
+      color: '#0284c7',
+      shape: 'bottle',
+      size: { w: 0.2, h: 0.62, d: 0.2 },
+      korzinkaPlacement: 'ambient_shelf'
+    },
+    {
+      id: 'nestle_15',
+      name: 'Nestlé Pure Life 1.5L',
+      category: 'ichimliklar',
+      price: 5000,
+      brand: 'nestle',
+      color: '#0072ce',
+      shape: 'bottle',
+      size: { w: 0.2, h: 0.62, d: 0.2 },
+      korzinkaPlacement: 'ambient_shelf'
+    }
+  ];
+
+  // 2-JAVON UCHUN SHIRINLIKLAR RO'YXATI (1-qavatdan 6-qavatgacha)
+  private sweetProducts: ProductItem[] = [
+    {
+      id: 'snickers_80',
+      name: 'Snickers Super 80g',
+      category: 'shirinliklar',
+      price: 9000,
+      brand: 'snickers',
+      color: '#381604',
+      shape: 'box',
+      size: { w: 0.38, h: 0.16, d: 0.18 },
+      korzinkaPlacement: 'ambient_shelf'
+    },
+    {
+      id: 'milka_100',
+      name: 'Milka Alpskiy 100g',
+      category: 'shirinliklar',
+      price: 16000,
+      brand: 'milka',
+      color: '#7c3aed',
+      shape: 'box',
+      size: { w: 0.38, h: 0.22, d: 0.18 },
+      korzinkaPlacement: 'ambient_shelf'
+    },
+    {
+      id: 'nutella_350',
+      name: 'Nutella Pastasi 350g',
+      category: 'shirinliklar',
+      price: 48000,
+      brand: 'nutella',
+      color: '#ffffff',
+      shape: 'can',
+      size: { w: 0.28, h: 0.32, d: 0.28 },
+      korzinkaPlacement: 'ambient_shelf'
+    },
+    {
+      id: 'oreo_154',
+      name: 'Oreo Pechyoniyasi 154g',
+      category: 'shirinliklar',
+      price: 11500,
+      brand: 'oreo',
+      color: '#0072ce',
+      shape: 'box',
+      size: { w: 0.38, h: 0.24, d: 0.18 },
+      korzinkaPlacement: 'ambient_shelf'
+    },
+    {
+      id: 'chocopie_12',
+      name: 'Lotte Choco-Pie 12x',
+      category: 'shirinliklar',
+      price: 27000,
+      brand: 'chocopie',
+      color: '#b91c1c',
+      shape: 'box',
+      size: { w: 0.42, h: 0.26, d: 0.22 },
+      korzinkaPlacement: 'ambient_shelf'
+    },
+    {
+      id: 'twix_75',
+      name: 'Twix Xtra 75g',
+      category: 'shirinliklar',
+      price: 9000,
+      brand: 'twix',
+      color: '#f59e0b',
+      shape: 'box',
+      size: { w: 0.38, h: 0.18, d: 0.18 },
+      korzinkaPlacement: 'ambient_shelf'
+    }
+  ];
+
   constructor(scene: THREE.Scene, labelManager: LabelManager) {
     this.scene = scene;
     this.labelManager = labelManager;
-    this.buildKorzinkaSupermarket();
-  }
-
-  private buildKorzinkaSupermarket(): void {
-    const allProducts: ProductItem[] = productsData as ProductItem[];
-
-    // Mahsulotlarni bo'limlar bo'yicha saralash
-    const drinks = allProducts.filter((p) => p.category === 'ichimliklar');
-    const sweets = allProducts.filter((p) => p.category === 'shirinliklar');
-    const dairy = allProducts.filter((p) => p.category === 'sut_mahsulotlari');
-    const grocery = allProducts.filter((p) => p.category === 'baqqollik');
-    const meat = allProducts.filter((p) => p.category === 'gosht_muzlatilgan');
-    const household = allProducts.filter((p) => p.category === 'maishiy_kimyo');
-    const bakery = allProducts.filter((p) => p.category === 'non_pishiriqlar');
-    const produce = allProducts.filter((p) => p.category === 'meva_sabzavot');
-
-    // 4 TA ASOSIY PARALLEL QATOR (Keng yo'laklar: X oralig'i = 4.2 metr!)
-    // 1-qator (X = -8.5): SHIRINLIKLAR & MAISHIY KIMYO
-    this.createDoubleSidedAisle(-8.5, -4, 'SHIRINLIKLAR VA PECHYONELAR', sweets);
-    this.createDoubleSidedAisle(-8.5, 6, 'MAISHIY KIMYO VA TOZALIK', household);
-
-    // 2-qator (X = -3.5): SUT MAHSULOTLARI & NON-PISHIRIQLAR
-    this.createDoubleSidedAisle(-3.5, -4, 'SUT VA SUT MAHSULOTLARI', dairy);
-    this.createDoubleSidedAisle(-3.5, 6, 'YANGI NON VA PISHIRIQLAR', bakery);
-
-    // 3-qator (X = 3.5): GO'SHT VA MUZLATILGAN & MEVA-SABZAVOT
-    this.createDoubleSidedAisle(3.5, -4, 'GO\'SHT VA MUZLATILGAN MAHSULOTLAR', meat);
-    this.createDoubleSidedAisle(3.5, 6, 'MEVA VA SABZAVOTLAR BO\'LIMI', produce);
-
-    // 4-qator (X = 8.5): ICHIMLIKLAR & BAQQOLLIK
-    this.createDoubleSidedAisle(8.5, -4, 'ICHIMLIKLAR VA SULAR', drinks);
-    this.createDoubleSidedAisle(8.5, 6, 'BAQQOLLIK VA DON MAHSULOTLARI', grocery);
+    this.buildTwoStandaloneAisles();
   }
 
   /**
-   * IKKI TOMONLAMA (DOUBLE-SIDED) KORZINKA JAVONI:
-   * Old tomoni ham (+Z), orqa tomoni ham (-Z) 100% to'la mahsulotlar bilan teriladi!
+   * O'tgan safargidek 2 TA KATTA ALOHIDA JAVON (Bir-biriga yopishmagan, toza va keng)
    */
-  private createDoubleSidedAisle(
+  private buildTwoStandaloneAisles(): void {
+    // 1-JAVON (O'ng tomonda X = 5): ICHIMLIKLAR VA SULAR
+    this.createPhotoExactShelf(5, 0, 'ICHIMLIKLAR VA SULAR', this.drinkProducts);
+
+    // 2-JAVON (Chap tomonda X = -5): SHIRINLIKLAR VA PECHYONELAR
+    this.createPhotoExactShelf(-5, 0, 'SHIRINLIKLAR VA PECHYONELAR', this.sweetProducts);
+  }
+
+  /**
+   * Rasmdagi kabi 6 qavatli mustaqil javon
+   */
+  private createPhotoExactShelf(
     centerX: number,
     centerZ: number,
     aisleTitle: string,
-    products: ProductItem[]
+    tierProductList: ProductItem[]
   ): void {
-    const shelfWidth = 8.0;
-    const shelfHeight = 2.4;
+    const shelfWidth = 10.0;
+    const shelfHeight = 2.6;
     const shelfDepth = 1.0;
 
     const shelfRedMat = new THREE.MeshStandardMaterial({
@@ -95,7 +228,7 @@ export class ShelvesManager {
     const rowGroup = new THREE.Group();
     rowGroup.position.set(centerX, 0, centerZ);
 
-    // 1. O'rtadagi orqa panel (Backing)
+    // 1. Orqa oq panel
     const backPanel = new THREE.Mesh(
       new THREE.BoxGeometry(shelfWidth, shelfHeight, 0.04),
       shelfWhiteMat
@@ -106,14 +239,14 @@ export class ShelvesManager {
 
     // 2. Qizil ustunlar (Stoykalar)
     const postGeo = new THREE.BoxGeometry(0.08, shelfHeight, 0.08);
-    [-shelfWidth / 2, 0, shelfWidth / 2].forEach((x) => {
+    [-shelfWidth / 2, -shelfWidth / 6, shelfWidth / 6, shelfWidth / 2].forEach((x) => {
       const post = new THREE.Mesh(postGeo, shelfRedMat);
       post.position.set(x, shelfHeight / 2, 0);
       post.castShadow = true;
       rowGroup.add(post);
     });
 
-    // 3. Pastki to'q qizil taglik (Podium)
+    // 3. Pastki to'q qizil taglik
     const basePodium = new THREE.Mesh(
       new THREE.BoxGeometry(shelfWidth, 0.22, shelfDepth),
       shelfRedMat
@@ -122,11 +255,11 @@ export class ShelvesManager {
     basePodium.castShadow = true;
     rowGroup.add(basePodium);
 
-    // 4. JAVONNING 5 TA KATTA QAVATI
-    const tierHeights = [0.22, 0.65, 1.1, 1.55, 2.0];
+    // 4. JAVONNING 6 TA QAVATI
+    const tierHeights = [0.22, 0.62, 1.02, 1.42, 1.82, 2.22];
     const boardGeo = new THREE.BoxGeometry(shelfWidth, 0.04, shelfDepth);
 
-    // Narx kanali teksturasi
+    // Narx kanali
     const tagCanvas = document.createElement('canvas');
     tagCanvas.width = 512;
     tagCanvas.height = 32;
@@ -178,7 +311,7 @@ export class ShelvesManager {
       rowGroup.add(wireBack);
     });
 
-    // 5. TEPASIDAGI QIZIL KORZINKA TABLICHKASI (Ikki tomonlama)
+    // 5. TEPADAGI KATTA QIZIL TABLICHKA (Ikki tomonlama)
     const signBoard = new THREE.Mesh(
       new THREE.BoxGeometry(shelfWidth * 0.74, 0.44, 0.06),
       shelfRedMat
@@ -196,7 +329,7 @@ export class ShelvesManager {
     sCtx.lineWidth = 4;
     sCtx.strokeRect(10, 10, 1004, 108);
     sCtx.fillStyle = '#ffffff';
-    sCtx.font = '900 44px "Arial Black", sans-serif';
+    sCtx.font = '900 46px "Arial Black", sans-serif';
     sCtx.textAlign = 'center';
     sCtx.textBaseline = 'middle';
     sCtx.fillText(`🛒   ${aisleTitle}   🛒`, 512, 64);
@@ -219,7 +352,7 @@ export class ShelvesManager {
 
     this.scene.add(rowGroup);
 
-    // To'qnashuv qutisi (Collision Box)
+    // To'qnashuv
     const collider = new THREE.Box3();
     collider.setFromCenterAndSize(
       new THREE.Vector3(centerX, shelfHeight / 2, centerZ),
@@ -227,29 +360,25 @@ export class ShelvesManager {
     );
     this.shelfColliders.push(collider);
 
-    // 6. MAHSULOTLARNI IKKALA TOMONGA HAM (OLD VA ORQA) ZICH TERISH
-    this.populateBothSides(centerX, centerZ, tierHeights, shelfWidth, products);
+    // 6. MAHSULOTLARNI OLDIGA HAM, ORQASIGA HAM TO'LIQ TERISH
+    this.populateBothSides(centerX, centerZ, tierHeights, shelfWidth, tierProductList);
   }
 
-  /**
-   * Javonning OLD (+Z) va ORQA (-Z) tomonlariga mahsulotlarni to'la qilib terish
-   */
   private populateBothSides(
     centerX: number,
     centerZ: number,
     tierHeights: number[],
     shelfWidth: number,
-    products: ProductItem[]
+    productList: ProductItem[]
   ): void {
-    if (products.length === 0) return;
-
-    // Ikkala tomon: Old (+0.28) va Orqa (-0.28)
+    // Old (+0.28) va Orqa (-0.28) tomonlar
     const sides = [0.28, -0.28];
-    const columnsCount = 15;
+    const columnsCount = 18; // Har bir qavatda 18 tadan mahsulot
     const colStep = (shelfWidth - 0.8) / columnsCount;
 
     tierHeights.forEach((tierY, tierIdx) => {
-      const currentProduct = products[tierIdx % products.length];
+      // 0 dan 5 gacha qavatlar bo'yicha mahsulot
+      const currentProduct = productList[tierIdx];
 
       sides.forEach((sideZ) => {
         for (let col = 0; col < columnsCount; col++) {
@@ -260,7 +389,7 @@ export class ShelvesManager {
           const prodModel = ProductModelFactory.createProductModel(currentProduct);
           prodModel.position.set(posX, spawnY, posZ);
 
-          // Orqa tomondagi mahsulotlar tashqariga (-Z ga) qarab tursin
+          // Orqa tomondagilarni tashqariga qaratish
           if (sideZ < 0) {
             prodModel.rotation.y = Math.PI;
           }
@@ -283,7 +412,7 @@ export class ShelvesManager {
 
           this.scene.add(prodModel);
 
-          // Har 3 tadan biriga narx/nom yorlig'i
+          // Har 3 tadan biriga yorliq
           if (col % 3 === 0) {
             this.labelManager.attachLabel(prodModel, currentProduct);
           }
@@ -294,7 +423,7 @@ export class ShelvesManager {
             originalY: spawnY,
           });
 
-          // Chuqurlik bo'yicha orqasidagi zaxira nusxasi (stok)
+          // Orqadagi zaxira stoki (hech qanday bo'shliq qolmasligi uchun)
           const depthOffset = sideZ > 0 ? -0.14 : 0.14;
           const backCopy = ProductModelFactory.createProductModel(currentProduct);
           backCopy.position.set(posX, spawnY, posZ + depthOffset);
