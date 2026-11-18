@@ -3,78 +3,94 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Mini Market - 3D Supermarket</title>
+    <title>Mini Market - 3D Virtual Supermarket</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./src/style.css" />
   </head>
   <body>
-    <!-- 3D Sahna va CSS2D Konteyneri -->
+    <!-- 3D Sahna va CSS2D Renderer Konteyneri -->
     <div id="canvas-container"></div>
 
     <!-- Markaziy nishon (Crosshair) -->
     <div id="crosshair"></div>
 
-    <!-- Yo'riqnoma paneli (O'ng yuqori) -->
+    <!-- O'ng yuqori: Yo'riqnoma va Info paneli -->
     <div id="instructions" class="glass-panel">
       <div class="panel-header">
-        <span class="icon">🎮</span> Boshqaruv
+        <span class="header-icon">🎮</span> Supermarket Boshqaruvi
       </div>
       <ul class="control-list">
-        <li><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> yoki <kbd>←</kbd><kbd>↑</kbd><kbd>→</kbd><kbd>↓</kbd> : Harakatlanish</li>
-        <li><span class="key-badge">Sichqoncha</span> : Atrofga qarash (bosing)</li>
-        <li><span class="key-badge">Chap tugma</span> : Mahsulotni tanlash</li>
-        <li><kbd>E</kbd> yoki <kbd>Enter</kbd> : Savatga tezkor qo'shish</li>
+        <li><span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> / <kbd>Strelkalar</kbd></span> <span>Harakat</span></li>
+        <li><span><kbd>Sichqoncha</kbd> (bosing)</span> <span>Atrofga qarash</span></li>
+        <li><span><kbd>E</kbd> yoki <kbd>Enter</kbd></span> <span>Savatga olish</span></li>
       </ul>
-      <div class="tip-text">💡 Ekranga bosib kamerani faollashtiring (Pointer Lock)</div>
+      <div class="tip-text">✨ Mahsulotga yaqinlashing, ustiga qarab savatga qo'shing</div>
     </div>
 
-    <!-- Yaqinlashganda chiquvchi interaktiv xabar / tugma -->
+    <!-- Mahsulotga yaqinlashganda chiquvchi Premium Interaktiv Karta -->
     <div id="interaction-prompt" class="hidden">
       <div class="prompt-card glass-panel">
-        <div class="prompt-info">
-          <span id="prompt-name">Mahsulot</span>
-          <span id="prompt-price" class="badge-price">0 so'm</span>
+        <div id="prompt-brand-badge" class="brand-badge">BREND</div>
+        <div class="prompt-main-info">
+          <div id="prompt-name" class="prompt-title">Mahsulot Nomi</div>
+          <div class="prompt-meta">
+            <span id="prompt-category" class="category-pill">Bo'lim</span>
+            <span id="prompt-price" class="prompt-price-tag">0 so'm</span>
+          </div>
         </div>
-        <button id="prompt-add-btn" class="btn btn-primary">
+        <button id="prompt-add-btn" class="btn btn-add">
           🛒 Savatga qo'shish <kbd>E</kbd>
         </button>
       </div>
     </div>
 
-    <!-- Savat paneli (Chap pastki qism) -->
-    <div id="cart-panel" class="glass-panel">
-      <div class="cart-header" id="cart-toggle-btn">
-        <div class="cart-title">
-          <span class="icon">🛒</span> Savatingiz
-          <span id="cart-count-badge" class="count-badge">0</span>
+    <!-- HAR DOIM KO'RINIB TURUVCHI FLOATING SAVAT TUGMASI (Desktop & Mobil) -->
+    <button id="cart-floating-btn" class="cart-floating-btn" title="Savatni ochish">
+      <div class="cart-btn-icon-wrap">
+        <span class="cart-btn-icon">🛒</span>
+        <span id="floating-cart-count" class="floating-badge">0</span>
+      </div>
+      <span class="floating-btn-text">Savat</span>
+      <span id="floating-cart-total" class="floating-total-preview">0 so'm</span>
+    </button>
+
+    <!-- SAVAT MODAL / SLIDE-OVER PANELI (Faqat tugma bosilganda ochiladi) -->
+    <div id="cart-backdrop" class="cart-backdrop hidden"></div>
+    <div id="cart-modal" class="cart-modal hidden">
+      <div class="cart-modal-header">
+        <div class="cart-modal-title">
+          <span class="icon">🛒</span> Xaridlar Savatingiz
+          <span id="cart-count-badge" class="count-badge">0 ta</span>
         </div>
-        <button id="cart-minimize-btn" class="icon-btn" title="Kattalashtirish/Kichraytirish">▾</button>
+        <button id="cart-close-btn" class="modal-close-btn" title="Yopish">✕</button>
       </div>
 
-      <div id="cart-body" class="cart-body">
+      <div class="cart-modal-body">
         <div id="cart-empty-message" class="cart-empty">
-          Savat hozircha bo'sh.<br>Javonlardan mahsulotlarni tanlang!
+          <div class="empty-icon">🛍️</div>
+          <div class="empty-title">Savatingiz hozircha bo'sh</div>
+          <div class="empty-subtitle">Javonlar orasida yurib, yoqqan mahsulotlarni tanlang!</div>
         </div>
         <div id="cart-items" class="cart-items-list">
-          <!-- Dinamik qo'shiladi -->
+          <!-- Savatdagi mahsulotlar dinamik tushadi -->
         </div>
-        
-        <div class="cart-footer">
-          <div class="total-row">
-            <span>Jami summa:</span>
-            <span id="cart-total-price" class="total-price">0 so'm</span>
-          </div>
-          <div class="cart-actions">
-            <button id="cart-clear-btn" class="btn btn-danger-outline" title="Savatni tozalash">Tozalash</button>
-            <button id="cart-checkout-btn" class="btn btn-success">Buyurtma berish</button>
-          </div>
+      </div>
+
+      <div class="cart-modal-footer">
+        <div class="total-row">
+          <span class="total-label">Jami to'lov:</span>
+          <span id="cart-total-price" class="total-price">0 so'm</span>
+        </div>
+        <div class="cart-actions">
+          <button id="cart-clear-btn" class="btn btn-secondary">Tozalash</button>
+          <button id="cart-checkout-btn" class="btn btn-primary">Xaridni yakunlash</button>
         </div>
       </div>
     </div>
 
-    <!-- Bildirishnomalar (Toast notifications) konteyneri -->
+    <!-- Bildirishnomalar konteyneri (Toast) -->
     <div id="toast-container"></div>
 
     <!-- Mobil ekran uchun sensorli boshqaruv joystik va tugmalari -->
@@ -84,7 +100,7 @@
           <div id="joystick-stick"></div>
         </div>
       </div>
-      <button id="mobile-action-btn" class="btn btn-primary mobile-btn">
+      <button id="mobile-action-btn" class="mobile-action-btn" title="Mahsulotni savatga olish">
         🛒 Olish
       </button>
     </div>

@@ -7,6 +7,8 @@ import { ProductItem } from '../types';
 
 /**
  * Foydalanuvchi nishoni va mahsulotlar bilan interaktiv muloqotni (Raycasting) boshqaradi.
+ * Marketlarga ko'rsatganda 100% professional chiqishi uchun mahsulot brendi, nomi, toifasi
+ * va narxi to'liq ma'lumotli karta sifatida ochiladi.
  */
 export class InteractionManager {
   private camera: THREE.Camera;
@@ -16,14 +18,16 @@ export class InteractionManager {
   private labelManager: LabelManager;
 
   private raycaster = new THREE.Raycaster();
-  private centerCoord = new THREE.Vector2(0, 0); // Ekranning qoq markazi (crosshair)
-  private maxInteractionDistance = 4.0; // Yaqinlashish masofasi (metr)
+  private centerCoord = new THREE.Vector2(0, 0);
+  private maxInteractionDistance = 4.2; // Yaqinlashganda yetish masofasi
 
   private currentTarget: InteractiveProduct | null = null;
 
-  // UI elementlari
+  // Yangilangan UI elementlari
   private promptContainer: HTMLElement | null;
+  private promptBadge: HTMLElement | null;
   private promptName: HTMLElement | null;
+  private promptCategory: HTMLElement | null;
   private promptPrice: HTMLElement | null;
   private promptAddBtn: HTMLElement | null;
   private crosshair: HTMLElement | null;
@@ -43,7 +47,9 @@ export class InteractionManager {
     this.labelManager = labelManager;
 
     this.promptContainer = document.getElementById('interaction-prompt');
+    this.promptBadge = document.getElementById('prompt-brand-badge');
     this.promptName = document.getElementById('prompt-name');
+    this.promptCategory = document.getElementById('prompt-category');
     this.promptPrice = document.getElementById('prompt-price');
     this.promptAddBtn = document.getElementById('prompt-add-btn');
     this.crosshair = document.getElementById('crosshair');
@@ -53,13 +59,13 @@ export class InteractionManager {
   }
 
   private initEvents(): void {
-    // Ekranda chiqqan "Savatga qo'shish" tugmasini bosish
+    // 1. Ekranda chiqqan "🛒 Savatga qo'shish" tugmasini bosganda
     this.promptAddBtn?.addEventListener('click', (e) => {
       e.stopPropagation();
       this.addCurrentTargetToCart();
     });
 
-    // Klaviaturadagi 'E' yoki 'Enter' orqali tezkor savatga olish
+    // 2. Klaviaturadagi 'E' yoki 'Enter' orqali tezkor savatga olish
     window.addEventListener('keydown', (e) => {
       if (e.code === 'KeyE' || e.code === 'Enter') {
         if (this.currentTarget) {
@@ -68,19 +74,28 @@ export class InteractionManager {
       }
     });
 
-    // Mobil ekrandagi harakat tugmasi
-    this.mobileActionBtn?.addEventListener('click', () => {
+    // 3. Mobil ekrandagi yashil '🛒 Olish' tugmasi
+    this.mobileActionBtn?.addEventListener('click', (e) => {
+      e.stopPropagation();
       if (this.currentTarget) {
         this.addCurrentTargetToCart();
       }
     });
 
-    // Sichqoncha chap tugmasini bosganda
+    // 4. Sichqoncha yoki ekranni to'g'ridan-to'g'ri bosganda
     window.addEventListener('pointerdown', (e) => {
       const target = e.target as HTMLElement;
-      if (target.closest('#cart-panel') || target.closest('#instructions') || target.closest('#interaction-prompt')) {
+      // Agar foydalanuvchi modal, floating tugma yoki boshqa UI ni bosayotgan bo'lsa xalaqit bermaymiz
+      if (
+        target.closest('#cart-modal') ||
+        target.closest('#cart-floating-btn') ||
+        target.closest('#instructions') ||
+        target.closest('#interaction-prompt') ||
+        target.closest('#mobile-controls')
+      ) {
         return;
       }
+
       if (this.currentTarget) {
         this.addCurrentTargetToCart();
       }
@@ -88,7 +103,7 @@ export class InteractionManager {
   }
 
   /**
-   * Tanlangan mahsulotni savatga qo'shish va animatsiya qilish
+   * Tanlangan mahsulotni savatga qo'shish va sakrash animatsiyasi
    */
   public addCurrentTargetToCart(): void {
     if (!this.currentTarget) return;
@@ -97,18 +112,14 @@ export class InteractionManager {
     this.cart.addItem(prod);
     this.cartUi.showToast(`🛒 "${prod.name}" savatga qo'shildi!`);
 
-    // Mahsulotga sakrash animatsiyasi
     this.triggerJumpAnimation(this.currentTarget);
   }
 
-  /**
-   * Mahsulot olinganda vizual sakrash va qaytib tushish animatsiyasi
-   */
   private triggerJumpAnimation(target: InteractiveProduct): void {
     const group = target.group;
     const startY = target.originalY;
-    const jumpHeight = 0.22;
-    const duration = 260; // ms
+    const jumpHeight = 0.24;
+    const duration = 280;
     const startTime = performance.now();
 
     const animateJump = (now: number) => {
@@ -137,7 +148,6 @@ export class InteractionManager {
     if (intersects.length > 0) {
       const hit = intersects[0];
       if (hit.distance <= this.maxInteractionDistance) {
-        // Ob'ekt yoki uning ota guruhidan mahsulotni qidiramiz
         let targetGroup = hit.object.userData.parentGroup as THREE.Group;
         if (!targetGroup && (hit.object as THREE.Group).isGroup) {
           targetGroup = hit.object as THREE.Group;
@@ -159,8 +169,17 @@ export class InteractionManager {
     const prod: ProductItem = target.product;
 
     if (this.promptName && this.promptPrice && this.promptContainer && this.crosshair) {
+      // 100% Aniq brend va toifa
+      if (this.promptBadge) {
+        this.promptBadge.textContent = prod.brand.toUpperCase();
+      }
+      if (this.promptCategory) {
+        this.promptCategory.textContent = prod.category.replace('_', ' ').toUpperCase();
+      }
+
       this.promptName.textContent = prod.name;
       this.promptPrice.textContent = `${prod.price.toLocaleString('uz-UZ')} so'm`;
+
       this.promptContainer.classList.remove('hidden');
       this.crosshair.classList.add('targeted');
     }
