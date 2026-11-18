@@ -10,11 +10,17 @@ export interface InteractiveProduct {
 }
 
 /**
- * Supermarketda 2 TA MUSTAQIL JAVON:
- * Ular bir chiziqda yonma-yon yopishib turmaydi!
- * 1-javon (ICHIMLIKLAR) va 2-javon (SHIRINLIKLAR) bir-biriga yuzma-yuz (Parallel) qarab turadi,
- * ularning o'rtasida KORZINKA uslubidagi 5 METRLI KENG XARID YO'LAKCHASI (Aisle) bor!
- * Odam bemalol ikkala javon orasidan aravacha bilan o'tib xarid qiladi.
+ * Supermarketda 2 ta katta oroli (Gondola), har birida 2 tadan tomon (jami 4 ta mustaqil javon):
+ *
+ * 1-OROL (Z = -3.5 da):
+ * - OLD TOMONI (+Z): "SHIRINLIKLAR VA PECHYONELAR" (Twix, Choco-Pie, Oreo, Nutella, Milka, Snickers)
+ * - ORQA TOMONI (-Z): "ICHIMLIKLAR VA SULAR" (Nestle, Montella, Sprite, Fanta, Cola, Pepsi)
+ *
+ * 2-OROL (Z = 3.5 da):
+ * - OLD TOMONI (+Z): "KONSERVA VA BALIQ MAHSULOTLARI" (Tunes, Sardina, Bonduelle jo'xori, no'xat, zaytun, bodring)
+ * - ORQA TOMONI (-Z): "SUT VA SUT MAHSULOTLARI" (Kamilka sut, Musaffo, Kefir, Smetana, Président sariyog', Golland pishloq)
+ *
+ * O'rtasida 7 metrli keng chiroyli yo'lak bor, har bir bo'lim o'zining tepadagi qizil tablichkasi bilan ko'rinadi!
  */
 export class ShelvesManager {
   private scene: THREE.Scene;
@@ -23,77 +29,7 @@ export class ShelvesManager {
   public productMeshes: InteractiveProduct[] = [];
   public clickableMeshes: THREE.Object3D[] = [];
 
-  // 1-JAVON: ICHIMLIKLAR VA SULAR
-  private drinkProducts: ProductItem[] = [
-    {
-      id: 'pepsi_15',
-      name: 'Pepsi 1.5L',
-      category: 'ichimliklar',
-      price: 13000,
-      brand: 'pepsi',
-      color: '#004b93',
-      shape: 'bottle',
-      size: { w: 0.22, h: 0.65, d: 0.22 },
-      korzinkaPlacement: 'ambient_shelf'
-    },
-    {
-      id: 'cola_15',
-      name: 'Coca-Cola 1.5L',
-      category: 'ichimliklar',
-      price: 14000,
-      brand: 'cola',
-      color: '#e11d48',
-      shape: 'bottle',
-      size: { w: 0.22, h: 0.65, d: 0.22 },
-      korzinkaPlacement: 'ambient_shelf'
-    },
-    {
-      id: 'fanta_15',
-      name: 'Fanta Orange 1.5L',
-      category: 'ichimliklar',
-      price: 13500,
-      brand: 'fanta',
-      color: '#ea580c',
-      shape: 'bottle',
-      size: { w: 0.22, h: 0.65, d: 0.22 },
-      korzinkaPlacement: 'ambient_shelf'
-    },
-    {
-      id: 'sprite_15',
-      name: 'Sprite 1.5L',
-      category: 'ichimliklar',
-      price: 13500,
-      brand: 'sprite',
-      color: '#15803d',
-      shape: 'bottle',
-      size: { w: 0.22, h: 0.65, d: 0.22 },
-      korzinkaPlacement: 'ambient_shelf'
-    },
-    {
-      id: 'montella_15',
-      name: 'Montella Suv 1.5L',
-      category: 'ichimliklar',
-      price: 4500,
-      brand: 'montella',
-      color: '#0284c7',
-      shape: 'bottle',
-      size: { w: 0.2, h: 0.62, d: 0.2 },
-      korzinkaPlacement: 'ambient_shelf'
-    },
-    {
-      id: 'nestle_15',
-      name: 'Nestlé Pure Life 1.5L',
-      category: 'ichimliklar',
-      price: 5000,
-      brand: 'nestle',
-      color: '#0072ce',
-      shape: 'bottle',
-      size: { w: 0.2, h: 0.62, d: 0.2 },
-      korzinkaPlacement: 'ambient_shelf'
-    }
-  ];
-
-  // 2-JAVON: SHIRINLIKLAR VA PECHYONELAR
+  // 1. SHIRINLIKLAR
   private sweetProducts: ProductItem[] = [
     {
       id: 'snickers_80',
@@ -163,31 +99,259 @@ export class ShelvesManager {
     }
   ];
 
+  // 2. ICHIMLIKLAR VA SULAR
+  private drinkProducts: ProductItem[] = [
+    {
+      id: 'pepsi_15',
+      name: 'Pepsi 1.5L',
+      category: 'ichimliklar',
+      price: 13000,
+      brand: 'pepsi',
+      color: '#004b93',
+      shape: 'bottle',
+      size: { w: 0.22, h: 0.65, d: 0.22 },
+      korzinkaPlacement: 'ambient_shelf'
+    },
+    {
+      id: 'cola_15',
+      name: 'Coca-Cola 1.5L',
+      category: 'ichimliklar',
+      price: 14000,
+      brand: 'cola',
+      color: '#e11d48',
+      shape: 'bottle',
+      size: { w: 0.22, h: 0.65, d: 0.22 },
+      korzinkaPlacement: 'ambient_shelf'
+    },
+    {
+      id: 'fanta_15',
+      name: 'Fanta Orange 1.5L',
+      category: 'ichimliklar',
+      price: 13500,
+      brand: 'fanta',
+      color: '#ea580c',
+      shape: 'bottle',
+      size: { w: 0.22, h: 0.65, d: 0.22 },
+      korzinkaPlacement: 'ambient_shelf'
+    },
+    {
+      id: 'sprite_15',
+      name: 'Sprite 1.5L',
+      category: 'ichimliklar',
+      price: 13500,
+      brand: 'sprite',
+      color: '#15803d',
+      shape: 'bottle',
+      size: { w: 0.22, h: 0.65, d: 0.22 },
+      korzinkaPlacement: 'ambient_shelf'
+    },
+    {
+      id: 'montella_15',
+      name: 'Montella Suv 1.5L',
+      category: 'ichimliklar',
+      price: 4500,
+      brand: 'montella',
+      color: '#0284c7',
+      shape: 'bottle',
+      size: { w: 0.2, h: 0.62, d: 0.2 },
+      korzinkaPlacement: 'ambient_shelf'
+    },
+    {
+      id: 'nestle_15',
+      name: 'Nestlé Pure Life 1.5L',
+      category: 'ichimliklar',
+      price: 5000,
+      brand: 'nestle',
+      color: '#0072ce',
+      shape: 'bottle',
+      size: { w: 0.2, h: 0.62, d: 0.2 },
+      korzinkaPlacement: 'ambient_shelf'
+    }
+  ];
+
+  // 3. KONSERVALAR VA BALIQ
+  private cannedProducts: ProductItem[] = [
+    {
+      id: 'canned_tuna',
+      name: 'Tunes Tuna Baliq Konservasi 185g',
+      category: 'konserva',
+      price: 24000,
+      brand: 'tuna',
+      color: '#0284c7',
+      shape: 'can',
+      size: { w: 0.26, h: 0.18, d: 0.26 },
+      korzinkaPlacement: 'ambient_shelf'
+    },
+    {
+      id: 'canned_sardine',
+      name: 'Sardina Moydagi Baliq 240g',
+      category: 'konserva',
+      price: 21000,
+      brand: 'sardine',
+      color: '#0f172a',
+      shape: 'can',
+      size: { w: 0.26, h: 0.18, d: 0.26 },
+      korzinkaPlacement: 'ambient_shelf'
+    },
+    {
+      id: 'canned_corn',
+      name: 'Bonduelle Shirin Jo\'xori 340g',
+      category: 'konserva',
+      price: 18000,
+      brand: 'corn',
+      color: '#15803d',
+      shape: 'can',
+      size: { w: 0.24, h: 0.3, d: 0.24 },
+      korzinkaPlacement: 'ambient_shelf'
+    },
+    {
+      id: 'canned_peas',
+      name: 'Bonduelle Yashil No\'xat 400g',
+      category: 'konserva',
+      price: 17500,
+      brand: 'peas',
+      color: '#15803d',
+      shape: 'can',
+      size: { w: 0.24, h: 0.3, d: 0.24 },
+      korzinkaPlacement: 'ambient_shelf'
+    },
+    {
+      id: 'canned_olives',
+      name: 'Qora Zaytun 300g',
+      category: 'konserva',
+      price: 22000,
+      brand: 'olives',
+      color: '#1e293b',
+      shape: 'can',
+      size: { w: 0.24, h: 0.32, d: 0.24 },
+      korzinkaPlacement: 'ambient_shelf'
+    },
+    {
+      id: 'canned_pickles',
+      name: 'Tuzlangan Bodring 720g',
+      category: 'konserva',
+      price: 19000,
+      brand: 'pickles',
+      color: '#14532d',
+      shape: 'can',
+      size: { w: 0.26, h: 0.42, d: 0.26 },
+      korzinkaPlacement: 'ambient_shelf'
+    }
+  ];
+
+  // 4. SUT MAHSULOTLARI
+  private dairyProducts: ProductItem[] = [
+    {
+      id: 'dairy_kamilka',
+      name: 'Kamilka Sut 3.2% 1L',
+      category: 'sut_mahsulotlari',
+      price: 12000,
+      brand: 'milk_kamilka',
+      color: '#0284c7',
+      shape: 'box',
+      size: { w: 0.26, h: 0.52, d: 0.2 },
+      korzinkaPlacement: 'ambient_shelf'
+    },
+    {
+      id: 'dairy_musaffo',
+      name: 'Musaffo Sut 2.5% 1L',
+      category: 'sut_mahsulotlari',
+      price: 11500,
+      brand: 'milk_musaffo',
+      color: '#2563eb',
+      shape: 'box',
+      size: { w: 0.26, h: 0.52, d: 0.2 },
+      korzinkaPlacement: 'ambient_shelf'
+    },
+    {
+      id: 'dairy_kefir',
+      name: 'Bio Kefir 1% 1L',
+      category: 'sut_mahsulotlari',
+      price: 13000,
+      brand: 'kefir',
+      color: '#059669',
+      shape: 'bottle',
+      size: { w: 0.24, h: 0.54, d: 0.24 },
+      korzinkaPlacement: 'ambient_shelf'
+    },
+    {
+      id: 'dairy_sourcream',
+      name: 'Smetana 20% 350g',
+      category: 'sut_mahsulotlari',
+      price: 14500,
+      brand: 'sourcream',
+      color: '#0284c7',
+      shape: 'cylinder',
+      size: { w: 0.26, h: 0.26, d: 0.26 },
+      korzinkaPlacement: 'ambient_shelf'
+    },
+    {
+      id: 'dairy_president',
+      name: 'Président Sariyog\' 82.5% 200g',
+      category: 'sut_mahsulotlari',
+      price: 28500,
+      brand: 'president',
+      color: '#fef08a',
+      shape: 'box',
+      size: { w: 0.32, h: 0.16, d: 0.2 },
+      korzinkaPlacement: 'ambient_shelf'
+    },
+    {
+      id: 'dairy_cheese',
+      name: 'Golland Pishlog\'i 300g',
+      category: 'sut_mahsulotlari',
+      price: 42000,
+      brand: 'cheese',
+      color: '#eab308',
+      shape: 'box',
+      size: { w: 0.34, h: 0.18, d: 0.22 },
+      korzinkaPlacement: 'ambient_shelf'
+    }
+  ];
+
   constructor(scene: THREE.Scene, labelManager: LabelManager) {
     this.scene = scene;
     this.labelManager = labelManager;
-    this.buildParallelAislesWithSpace();
+    this.buildFourDepartmentAisles();
   }
 
   /**
-   * Supermarketda 2 ta javon yuzma-yuz (parallel) turadi:
-   * 1-javon: Z = -2.5 da
-   * 2-javon: Z = 3.5 da
-   * O'rtasida 6 metrli keng yo'lak bor, hech narsa bir-biriga tegilmaydi!
+   * Foydalanuvchi talabi bo'yicha:
+   * 1-OROL (Z = -3.5): Oldida Shirinliklar, Orqasida Suv/Kola
+   * 2-OROL (Z = 3.5): Oldida Konserva, Orqasida Sut mahsulotlari
    */
-  private buildParallelAislesWithSpace(): void {
-    // 1-JAVON (Orqadagi Z = -2.5): ICHIMLIKLAR VA SULAR
-    this.createPhotoExactShelf(0, -3.0, 'ICHIMLIKLAR VA SULAR', this.drinkProducts);
+  private buildFourDepartmentAisles(): void {
+    // 1-Gondola: Oldi = Shirinliklar, Orqasi = Ichimliklar
+    this.createGondolaIsland(
+      0,
+      -3.5,
+      'SHIRINLIKLAR VA PECHYONELAR',
+      this.sweetProducts,
+      'ICHIMLIKLAR VA SULAR',
+      this.drinkProducts
+    );
 
-    // 2-JAVON (Oldindagi Z = 3.5): SHIRINLIKLAR VA PECHYONELAR
-    this.createPhotoExactShelf(0, 3.5, 'SHIRINLIKLAR VA PECHYONELAR', this.sweetProducts);
+    // 2-Gondola: Oldi = Konservalar, Orqasi = Sut mahsulotlari
+    this.createGondolaIsland(
+      0,
+      3.5,
+      'KONSERVA VA BALIQ MAHSULOTLARI',
+      this.cannedProducts,
+      'SUT VA SUT MAHSULOTLARI',
+      this.dairyProducts
+    );
   }
 
-  private createPhotoExactShelf(
+  /**
+   * 2 tomonlama to'liq Gondola oroli (Old va Orqa tomonida alohida mahsulotlar va alohida tablichkalar)
+   */
+  private createGondolaIsland(
     centerX: number,
     centerZ: number,
-    aisleTitle: string,
-    tierProductList: ProductItem[]
+    frontTitle: string,
+    frontProducts: ProductItem[],
+    backTitle: string,
+    backProducts: ProductItem[]
   ): void {
     const shelfWidth = 10.0;
     const shelfHeight = 2.6;
@@ -213,7 +377,7 @@ export class ShelvesManager {
     const rowGroup = new THREE.Group();
     rowGroup.position.set(centerX, 0, centerZ);
 
-    // 1. Orqa oq panel
+    // 1. Orqa ajratuvchi panel
     const backPanel = new THREE.Mesh(
       new THREE.BoxGeometry(shelfWidth, shelfHeight, 0.04),
       shelfWhiteMat
@@ -295,7 +459,7 @@ export class ShelvesManager {
       rowGroup.add(wireBack);
     });
 
-    // 5. TEPADAGI QIZIL KORZINKA TABLICHKASI (Ikki tomonlama)
+    // 5. TEPADAGI TABLICHKALAR: Oldiga bitta, Orqasiga bitta alohida yozuv!
     const signBoard = new THREE.Mesh(
       new THREE.BoxGeometry(shelfWidth * 0.74, 0.44, 0.06),
       shelfRedMat
@@ -303,36 +467,52 @@ export class ShelvesManager {
     signBoard.position.set(0, shelfHeight + 0.22, 0);
     rowGroup.add(signBoard);
 
-    const signCanvas = document.createElement('canvas');
-    signCanvas.width = 1024;
-    signCanvas.height = 128;
-    const sCtx = signCanvas.getContext('2d')!;
-    sCtx.fillStyle = '#991b1b';
-    sCtx.fillRect(0, 0, 1024, 128);
-    sCtx.strokeStyle = '#ffffff';
-    sCtx.lineWidth = 4;
-    sCtx.strokeRect(10, 10, 1004, 108);
-    sCtx.fillStyle = '#ffffff';
-    sCtx.font = '900 46px "Arial Black", sans-serif';
-    sCtx.textAlign = 'center';
-    sCtx.textBaseline = 'middle';
-    sCtx.fillText(`🛒   ${aisleTitle}   🛒`, 512, 64);
+    // Old tomon tablichkasi
+    const frontCanvas = document.createElement('canvas');
+    frontCanvas.width = 1024;
+    frontCanvas.height = 128;
+    const fCtx = frontCanvas.getContext('2d')!;
+    fCtx.fillStyle = '#991b1b';
+    fCtx.fillRect(0, 0, 1024, 128);
+    fCtx.strokeStyle = '#ffffff';
+    fCtx.lineWidth = 4;
+    fCtx.strokeRect(10, 10, 1004, 108);
+    fCtx.fillStyle = '#ffffff';
+    fCtx.font = '900 44px "Arial Black", sans-serif';
+    fCtx.textAlign = 'center';
+    fCtx.textBaseline = 'middle';
+    fCtx.fillText(`🛒   ${frontTitle}   🛒`, 512, 64);
 
-    const signTexture = new THREE.CanvasTexture(signCanvas);
-    const signPlateFront = new THREE.Mesh(
+    const frontSignPlate = new THREE.Mesh(
       new THREE.PlaneGeometry(shelfWidth * 0.72, 0.4),
-      new THREE.MeshBasicMaterial({ map: signTexture })
+      new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(frontCanvas) })
     );
-    signPlateFront.position.set(0, shelfHeight + 0.22, 0.04);
-    rowGroup.add(signPlateFront);
+    frontSignPlate.position.set(0, shelfHeight + 0.22, 0.04);
+    rowGroup.add(frontSignPlate);
 
-    const signPlateBack = new THREE.Mesh(
+    // Orqa tomon tablichkasi
+    const backCanvas = document.createElement('canvas');
+    backCanvas.width = 1024;
+    backCanvas.height = 128;
+    const bCtx = backCanvas.getContext('2d')!;
+    bCtx.fillStyle = '#991b1b';
+    bCtx.fillRect(0, 0, 1024, 128);
+    bCtx.strokeStyle = '#ffffff';
+    bCtx.lineWidth = 4;
+    bCtx.strokeRect(10, 10, 1004, 108);
+    bCtx.fillStyle = '#ffffff';
+    bCtx.font = '900 44px "Arial Black", sans-serif';
+    bCtx.textAlign = 'center';
+    bCtx.textBaseline = 'middle';
+    bCtx.fillText(`🛒   ${backTitle}   🛒`, 512, 64);
+
+    const backSignPlate = new THREE.Mesh(
       new THREE.PlaneGeometry(shelfWidth * 0.72, 0.4),
-      new THREE.MeshBasicMaterial({ map: signTexture })
+      new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(backCanvas) })
     );
-    signPlateBack.position.set(0, shelfHeight + 0.22, -0.04);
-    signPlateBack.rotation.y = Math.PI;
-    rowGroup.add(signPlateBack);
+    backSignPlate.position.set(0, shelfHeight + 0.22, -0.04);
+    backSignPlate.rotation.y = Math.PI;
+    rowGroup.add(backSignPlate);
 
     this.scene.add(rowGroup);
 
@@ -344,72 +524,75 @@ export class ShelvesManager {
     );
     this.shelfColliders.push(collider);
 
-    // Mahsulotlarni old va orqa tomonga terish
-    this.populateBothSides(centerX, centerZ, tierHeights, shelfWidth, tierProductList);
+    // 6. OLD TOMONGA FRONT PRODUCTS TERISH (+Z)
+    this.populateSingleSide(centerX, centerZ, tierHeights, shelfWidth, frontProducts, 0.28, false);
+
+    // 7. ORQA TOMONGA BACK PRODUCTS TERISH (-Z)
+    this.populateSingleSide(centerX, centerZ, tierHeights, shelfWidth, backProducts, -0.28, true);
   }
 
-  private populateBothSides(
+  private populateSingleSide(
     centerX: number,
     centerZ: number,
     tierHeights: number[],
     shelfWidth: number,
-    productList: ProductItem[]
+    productList: ProductItem[],
+    sideZ: number,
+    isFlipped: boolean
   ): void {
-    const sides = [0.28, -0.28];
     const columnsCount = 18;
     const colStep = (shelfWidth - 0.8) / columnsCount;
 
     tierHeights.forEach((tierY, tierIdx) => {
       const currentProduct = productList[tierIdx];
 
-      sides.forEach((sideZ) => {
-        for (let col = 0; col < columnsCount; col++) {
-          const posX = centerX - (shelfWidth - 0.8) / 2 + col * colStep + colStep / 2;
-          const posZ = centerZ + sideZ;
-          const spawnY = tierY + 0.02;
+      for (let col = 0; col < columnsCount; col++) {
+        const posX = centerX - (shelfWidth - 0.8) / 2 + col * colStep + colStep / 2;
+        const posZ = centerZ + sideZ;
+        const spawnY = tierY + 0.02;
 
-          const prodModel = ProductModelFactory.createProductModel(currentProduct);
-          prodModel.position.set(posX, spawnY, posZ);
+        const prodModel = ProductModelFactory.createProductModel(currentProduct);
+        prodModel.position.set(posX, spawnY, posZ);
 
-          if (sideZ < 0) {
-            prodModel.rotation.y = Math.PI;
-          }
-
-          prodModel.userData = {
-            productId: currentProduct.id,
-            product: currentProduct,
-          };
-
-          prodModel.traverse((child) => {
-            if ((child as THREE.Mesh).isMesh) {
-              child.userData = {
-                productId: currentProduct.id,
-                product: currentProduct,
-                parentGroup: prodModel,
-              };
-              this.clickableMeshes.push(child);
-            }
-          });
-
-          this.scene.add(prodModel);
-
-          if (col % 3 === 0) {
-            this.labelManager.attachLabel(prodModel, currentProduct);
-          }
-
-          this.productMeshes.push({
-            group: prodModel,
-            product: currentProduct,
-            originalY: spawnY,
-          });
-
-          const depthOffset = sideZ > 0 ? -0.14 : 0.14;
-          const backCopy = ProductModelFactory.createProductModel(currentProduct);
-          backCopy.position.set(posX, spawnY, posZ + depthOffset);
-          if (sideZ < 0) backCopy.rotation.y = Math.PI;
-          this.scene.add(backCopy);
+        if (isFlipped) {
+          prodModel.rotation.y = Math.PI;
         }
-      });
+
+        prodModel.userData = {
+          productId: currentProduct.id,
+          product: currentProduct,
+        };
+
+        prodModel.traverse((child) => {
+          if ((child as THREE.Mesh).isMesh) {
+            child.userData = {
+              productId: currentProduct.id,
+              product: currentProduct,
+              parentGroup: prodModel,
+            };
+            this.clickableMeshes.push(child);
+          }
+        });
+
+        this.scene.add(prodModel);
+
+        if (col % 3 === 0) {
+          this.labelManager.attachLabel(prodModel, currentProduct);
+        }
+
+        this.productMeshes.push({
+          group: prodModel,
+          product: currentProduct,
+          originalY: spawnY,
+        });
+
+        // Chuqurlik bo'yicha zaxira nusxasi (orqa qatori)
+        const depthOffset = isFlipped ? 0.14 : -0.14;
+        const backCopy = ProductModelFactory.createProductModel(currentProduct);
+        backCopy.position.set(posX, spawnY, posZ + depthOffset);
+        if (isFlipped) backCopy.rotation.y = Math.PI;
+        this.scene.add(backCopy);
+      }
     });
   }
 
