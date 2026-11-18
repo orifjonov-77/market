@@ -1,325 +1,504 @@
 [
   {
-    "id": "bev_pepsi",
-    "name": "Pepsi 1.5L",
+    "id": "nestle_pure_life",
+    "name": "Nestlé Pure Life Suv 1.5L",
     "category": "ichimliklar",
-    "price": 13000,
-    "brand": "pepsi",
-    "color": "#004b93",
+    "price": 5000,
+    "brand": "nestle",
+    "color": "#0072ce",
     "shape": "bottle",
-    "size": { "w": 0.22, "h": 0.65, "d": 0.22 }
+    "size": { "w": 0.2, "h": 0.62, "d": 0.2 },
+    "korzinkaPlacement": "ambient_shelf"
   },
   {
-    "id": "bev_cola",
-    "name": "Coca-Cola 1.5L",
+    "id": "montella_water",
+    "name": "Montella Tabiiy Suv 1.5L",
+    "category": "ichimliklar",
+    "price": 4500,
+    "brand": "montella",
+    "color": "#0284c7",
+    "shape": "bottle",
+    "size": { "w": 0.2, "h": 0.62, "d": 0.2 },
+    "korzinkaPlacement": "ambient_shelf"
+  },
+  {
+    "id": "coca_cola_15",
+    "name": "Coca-Cola Classic 1.5L",
     "category": "ichimliklar",
     "price": 14000,
     "brand": "cola",
     "color": "#e11d48",
     "shape": "bottle",
-    "size": { "w": 0.22, "h": 0.65, "d": 0.22 }
+    "size": { "w": 0.22, "h": 0.65, "d": 0.22 },
+    "korzinkaPlacement": "ambient_shelf"
   },
   {
-    "id": "bev_fanta",
+    "id": "pepsi_15",
+    "name": "Pepsi Cola 1.5L",
+    "category": "ichimliklar",
+    "price": 13000,
+    "brand": "pepsi",
+    "color": "#004b93",
+    "shape": "bottle",
+    "size": { "w": 0.22, "h": 0.65, "d": 0.22 },
+    "korzinkaPlacement": "ambient_shelf"
+  },
+  {
+    "id": "fanta_orange_15",
     "name": "Fanta Orange 1.5L",
     "category": "ichimliklar",
     "price": 13500,
     "brand": "fanta",
     "color": "#ea580c",
     "shape": "bottle",
-    "size": { "w": 0.22, "h": 0.65, "d": 0.22 }
+    "size": { "w": 0.22, "h": 0.65, "d": 0.22 },
+    "korzinkaPlacement": "ambient_shelf"
   },
   {
-    "id": "bev_sprite",
-    "name": "Sprite 1.5L",
+    "id": "sprite_15",
+    "name": "Sprite Limon & Laym 1.5L",
     "category": "ichimliklar",
     "price": 13500,
     "brand": "sprite",
     "color": "#15803d",
     "shape": "bottle",
-    "size": { "w": 0.22, "h": 0.65, "d": 0.22 }
-  },
-  {
-    "id": "bev_water_montella",
-    "name": "Montella Suv 1.5L",
-    "category": "ichimliklar",
-    "price": 4500,
-    "brand": "water",
-    "color": "#0284c7",
-    "shape": "bottle",
-    "size": { "w": 0.2, "h": 0.62, "d": 0.2 }
-  },
-  {
-    "id": "bev_water_nestle",
-    "name": "Nestlé Pure Life 1.5L",
-    "category": "ichimliklar",
-    "price": 5000,
-    "brand": "water",
-    "color": "#0284c7",
-    "shape": "bottle",
-    "size": { "w": 0.2, "h": 0.62, "d": 0.2 }
-  },
-  {
-    "id": "bev_juice_dena",
-    "name": "Dena Olma Sharbat 1L",
-    "category": "ichimliklar",
-    "price": 13500,
-    "brand": "dena",
-    "color": "#65a30d",
-    "shape": "box",
-    "size": { "w": 0.25, "h": 0.55, "d": 0.2 }
-  },
-  {
-    "id": "bev_juice_bliss",
-    "name": "Bliss Olcha Sharbat 1L",
-    "category": "ichimliklar",
-    "price": 15000,
-    "brand": "dena",
-    "color": "#9f1239",
-    "shape": "box",
-    "size": { "w": 0.25, "h": 0.55, "d": 0.2 }
+    "size": { "w": 0.22, "h": 0.65, "d": 0.22 },
+    "korzinkaPlacement": "ambient_shelf"
   },
 
   {
+    "id": "sweet_twix",
+    "name": "Twix Xtra Batonchik 75g",
+    "category": "shirinliklar",
+    "price": 9000,
+    "brand": "twix",
+    "color": "#f59e0b",
+    "shape": "box",
+    "size": { "w": 0.38, "h": 0.16, "d": 0.18 },
+    "korzinkaPlacement": "ambient_shelf"
+  },
+  {
     "id": "sweet_snickers",
-    "name": "Snickers Super 80g",
+    "name": "Snickers Super Shokolad 80g",
     "category": "shirinliklar",
     "price": 9000,
     "brand": "snickers",
-    "color": "#451a03",
+    "color": "#381604",
     "shape": "box",
-    "size": { "w": 0.32, "h": 0.12, "d": 0.18 }
+    "size": { "w": 0.38, "h": 0.16, "d": 0.18 },
+    "korzinkaPlacement": "ambient_shelf"
   },
   {
     "id": "sweet_milka",
-    "name": "Milka Alpskiy 100g",
+    "name": "Milka Alpskiy Shokolad 100g",
     "category": "shirinliklar",
     "price": 16000,
     "brand": "milka",
     "color": "#7c3aed",
     "shape": "box",
-    "size": { "w": 0.32, "h": 0.12, "d": 0.2 }
+    "size": { "w": 0.38, "h": 0.22, "d": 0.18 },
+    "korzinkaPlacement": "ambient_shelf"
+  },
+  {
+    "id": "sweet_oreo",
+    "name": "Oreo Original Pechyonya 154g",
+    "category": "shirinliklar",
+    "price": 11500,
+    "brand": "oreo",
+    "color": "#0072ce",
+    "shape": "box",
+    "size": { "w": 0.38, "h": 0.22, "d": 0.18 },
+    "korzinkaPlacement": "ambient_shelf"
   },
   {
     "id": "sweet_nutella",
-    "name": "Nutella Pastasi 350g",
+    "name": "Nutella Shokolad Pastasi 350g",
     "category": "shirinliklar",
     "price": 48000,
     "brand": "nutella",
     "color": "#ffffff",
     "shape": "can",
-    "size": { "w": 0.26, "h": 0.34, "d": 0.26 }
-  },
-  {
-    "id": "sweet_oreo",
-    "name": "Oreo Pechyoniyasi 154g",
-    "category": "shirinliklar",
-    "price": 11500,
-    "brand": "oreo",
-    "color": "#0284c7",
-    "shape": "cylinder",
-    "size": { "w": 0.2, "h": 0.48, "d": 0.2 }
+    "size": { "w": 0.28, "h": 0.32, "d": 0.28 },
+    "korzinkaPlacement": "ambient_shelf"
   },
   {
     "id": "sweet_chocopie",
-    "name": "Lotte Choco Pie 12x",
+    "name": "Lotte Choco-Pie 12 dona 360g",
     "category": "shirinliklar",
     "price": 27000,
     "brand": "chocopie",
     "color": "#b91c1c",
     "shape": "box",
-    "size": { "w": 0.38, "h": 0.25, "d": 0.24 }
-  },
-  {
-    "id": "sweet_twix",
-    "name": "Twix Xtra 75g",
-    "category": "shirinliklar",
-    "price": 9000,
-    "brand": "snickers",
-    "color": "#d97706",
-    "shape": "box",
-    "size": { "w": 0.32, "h": 0.12, "d": 0.18 }
+    "size": { "w": 0.42, "h": 0.25, "d": 0.22 },
+    "korzinkaPlacement": "ambient_shelf"
   },
   {
     "id": "sweet_kitkat",
     "name": "KitKat 4 Finger 45g",
     "category": "shirinliklar",
     "price": 8500,
-    "brand": "chocopie",
+    "brand": "kitkat",
     "color": "#dc2626",
     "shape": "box",
-    "size": { "w": 0.3, "h": 0.12, "d": 0.18 }
-  },
-  {
-    "id": "sweet_mms",
-    "name": "M&M's Yong'oqli 90g",
-    "category": "shirinliklar",
-    "price": 12000,
-    "brand": "oreo",
-    "color": "#ca8a04",
-    "shape": "box",
-    "size": { "w": 0.28, "h": 0.22, "d": 0.15 }
+    "size": { "w": 0.36, "h": 0.14, "d": 0.16 },
+    "korzinkaPlacement": "ambient_shelf"
   },
 
   {
-    "id": "canned_tuna",
-    "name": "Tunes Baliq Konservasi",
-    "category": "konserva",
-    "price": 24000,
-    "brand": "tuna",
+    "id": "dairy_kamilka_milk",
+    "name": "Kamilka Sut 3.2% 1L",
+    "category": "sut_mahsulotlari",
+    "price": 12000,
+    "brand": "milk_kamilka",
     "color": "#0284c7",
-    "shape": "can",
-    "size": { "w": 0.26, "h": 0.18, "d": 0.26 }
+    "shape": "box",
+    "size": { "w": 0.26, "h": 0.52, "d": 0.2 },
+    "korzinkaPlacement": "chilled_fridge"
   },
   {
-    "id": "canned_corn",
-    "name": "Bonduelle Jo'xori 340g",
-    "category": "konserva",
-    "price": 18000,
-    "brand": "corn",
-    "color": "#15803d",
-    "shape": "can",
-    "size": { "w": 0.24, "h": 0.3, "d": 0.24 }
+    "id": "dairy_musaffo_milk",
+    "name": "Musaffo Sut 2.5% 1L",
+    "category": "sut_mahsulotlari",
+    "price": 11500,
+    "brand": "milk_musaffo",
+    "color": "#2563eb",
+    "shape": "box",
+    "size": { "w": 0.26, "h": 0.52, "d": 0.2 },
+    "korzinkaPlacement": "chilled_fridge"
   },
   {
-    "id": "canned_peas",
-    "name": "Bonduelle Yashil No'xat",
-    "category": "konserva",
-    "price": 17500,
-    "brand": "peas",
-    "color": "#15803d",
-    "shape": "can",
-    "size": { "w": 0.24, "h": 0.3, "d": 0.24 }
+    "id": "dairy_kefir",
+    "name": "Bio Kefir 1% 1L",
+    "category": "sut_mahsulotlari",
+    "price": 13000,
+    "brand": "kefir",
+    "color": "#059669",
+    "shape": "bottle",
+    "size": { "w": 0.24, "h": 0.54, "d": 0.24 },
+    "korzinkaPlacement": "chilled_fridge"
   },
   {
-    "id": "canned_olives",
-    "name": "Qora Zaytun 300g",
-    "category": "konserva",
-    "price": 22000,
-    "brand": "olives",
-    "color": "#1e293b",
-    "shape": "can",
-    "size": { "w": 0.22, "h": 0.32, "d": 0.22 }
+    "id": "dairy_sourcream",
+    "name": "Smetana 20% 350g",
+    "category": "sut_mahsulotlari",
+    "price": 14500,
+    "brand": "sourcream",
+    "color": "#0284c7",
+    "shape": "cylinder",
+    "size": { "w": 0.26, "h": 0.26, "d": 0.26 },
+    "korzinkaPlacement": "chilled_fridge"
   },
   {
-    "id": "canned_pickles",
-    "name": "Tuzlangan Bodring 720g",
-    "category": "konserva",
-    "price": 19000,
-    "brand": "pickles",
-    "color": "#166534",
-    "shape": "can",
-    "size": { "w": 0.26, "h": 0.42, "d": 0.26 }
+    "id": "dairy_president_butter",
+    "name": "Président Sariyog' 82.5% 200g",
+    "category": "sut_mahsulotlari",
+    "price": 28500,
+    "brand": "president",
+    "color": "#fef08a",
+    "shape": "box",
+    "size": { "w": 0.32, "h": 0.16, "d": 0.2 },
+    "korzinkaPlacement": "chilled_fridge"
   },
   {
-    "id": "canned_mushrooms",
-    "name": "Marinadlangan Qo'ziqorin",
-    "category": "konserva",
-    "price": 26000,
-    "brand": "pickles",
+    "id": "dairy_cheese_dutch",
+    "name": "Golland Pishlog'i 300g",
+    "category": "sut_mahsulotlari",
+    "price": 42000,
+    "brand": "cheese",
+    "color": "#eab308",
+    "shape": "box",
+    "size": { "w": 0.34, "h": 0.18, "d": 0.22 },
+    "korzinkaPlacement": "chilled_fridge"
+  },
+
+  {
+    "id": "bakery_lepeshka",
+    "name": "Samarqand Non Issiq",
+    "category": "non_pishiriqlar",
+    "price": 7000,
+    "brand": "lepeshka",
+    "color": "#d97706",
+    "shape": "bread_round",
+    "size": { "w": 0.44, "h": 0.14, "d": 0.44 },
+    "korzinkaPlacement": "bakery_rack"
+  },
+  {
+    "id": "bakery_patir",
+    "name": "Yog'li Qatlama Patir",
+    "category": "non_pishiriqlar",
+    "price": 12000,
+    "brand": "patir",
+    "color": "#b45309",
+    "shape": "bread_round",
+    "size": { "w": 0.46, "h": 0.15, "d": 0.46 },
+    "korzinkaPlacement": "bakery_rack"
+  },
+  {
+    "id": "bakery_croissant",
+    "name": "Fransuz Shokoladli Kruassan",
+    "category": "non_pishiriqlar",
+    "price": 8500,
+    "brand": "croissant",
+    "color": "#92400e",
+    "shape": "box",
+    "size": { "w": 0.32, "h": 0.16, "d": 0.22 },
+    "korzinkaPlacement": "bakery_rack"
+  },
+  {
+    "id": "bakery_baguette",
+    "name": "Fransuz Bageti 300g",
+    "category": "non_pishiriqlar",
+    "price": 8000,
+    "brand": "baguette",
     "color": "#ca8a04",
-    "shape": "can",
-    "size": { "w": 0.25, "h": 0.38, "d": 0.25 }
+    "shape": "cylinder",
+    "size": { "w": 0.16, "h": 0.65, "d": 0.16 },
+    "korzinkaPlacement": "bakery_rack"
+  },
+
+  {
+    "id": "fruit_apple",
+    "name": "Qizil Shirin Olma 1kg",
+    "category": "meva_sabzavot",
+    "price": 16000,
+    "brand": "produce_apple",
+    "color": "#dc2626",
+    "shape": "fruit",
+    "size": { "w": 0.24, "h": 0.24, "d": 0.24 },
+    "korzinkaPlacement": "produce_crate"
   },
   {
-    "id": "canned_sardines",
-    "name": "Sardina Moydagi Baliq",
-    "category": "konserva",
-    "price": 21000,
-    "brand": "tuna",
-    "color": "#0369a1",
-    "shape": "can",
-    "size": { "w": 0.28, "h": 0.16, "d": 0.24 }
+    "id": "fruit_banana",
+    "name": "Ekvador Banan 1kg",
+    "category": "meva_sabzavot",
+    "price": 24000,
+    "brand": "produce_banana",
+    "color": "#facc15",
+    "shape": "fruit",
+    "size": { "w": 0.28, "h": 0.2, "d": 0.22 },
+    "korzinkaPlacement": "produce_crate"
   },
   {
-    "id": "canned_paste",
-    "name": "Pomidor Pastasi 800g",
-    "category": "konserva",
-    "price": 23000,
-    "brand": "corn",
-    "color": "#b91c1c",
-    "shape": "can",
-    "size": { "w": 0.26, "h": 0.38, "d": 0.26 }
+    "id": "fruit_orange",
+    "name": "Apelsin Suvli 1kg",
+    "category": "meva_sabzavot",
+    "price": 26000,
+    "brand": "produce_orange",
+    "color": "#ea580c",
+    "shape": "fruit",
+    "size": { "w": 0.24, "h": 0.24, "d": 0.24 },
+    "korzinkaPlacement": "produce_crate"
+  },
+  {
+    "id": "veg_potato",
+    "name": "Toza Kartoshka 1kg",
+    "category": "meva_sabzavot",
+    "price": 6000,
+    "brand": "produce_potato",
+    "color": "#a16207",
+    "shape": "fruit",
+    "size": { "w": 0.24, "h": 0.22, "d": 0.22 },
+    "korzinkaPlacement": "produce_crate"
+  },
+  {
+    "id": "veg_tomato",
+    "name": "Yusupov Pomidor 1kg",
+    "category": "meva_sabzavot",
+    "price": 18000,
+    "brand": "produce_tomato",
+    "color": "#ef4444",
+    "shape": "fruit",
+    "size": { "w": 0.24, "h": 0.22, "d": 0.24 },
+    "korzinkaPlacement": "produce_crate"
+  },
+  {
+    "id": "veg_cucumber",
+    "name": "Bodring Orzu 1kg",
+    "category": "meva_sabzavot",
+    "price": 14000,
+    "brand": "produce_cucumber",
+    "color": "#15803d",
+    "shape": "fruit",
+    "size": { "w": 0.26, "h": 0.16, "d": 0.16 },
+    "korzinkaPlacement": "produce_crate"
+  },
+
+  {
+    "id": "frozen_chicken",
+    "name": "Tovuq Go'shti Muzlatilgan 1kg",
+    "category": "gosht_muzlatilgan",
+    "price": 38000,
+    "brand": "frozen_chicken",
+    "color": "#f1f5f9",
+    "shape": "frozen_pack",
+    "size": { "w": 0.36, "h": 0.18, "d": 0.26 },
+    "korzinkaPlacement": "frozen_freezer"
+  },
+  {
+    "id": "frozen_beef",
+    "name": "Mol Go'shti Lahm Muzlatilgan 1kg",
+    "category": "gosht_muzlatilgan",
+    "price": 95000,
+    "brand": "frozen_beef",
+    "color": "#991b1b",
+    "shape": "frozen_pack",
+    "size": { "w": 0.36, "h": 0.18, "d": 0.26 },
+    "korzinkaPlacement": "frozen_freezer"
+  },
+  {
+    "id": "frozen_dumplings",
+    "name": "Muzlatilgan Chuchvara 800g",
+    "category": "gosht_muzlatilgan",
+    "price": 32000,
+    "brand": "frozen_dumplings",
+    "color": "#0284c7",
+    "shape": "frozen_pack",
+    "size": { "w": 0.34, "h": 0.18, "d": 0.24 },
+    "korzinkaPlacement": "frozen_freezer"
+  },
+  {
+    "id": "frozen_veg_mix",
+    "name": "Muzlatilgan Sabzavotlar 400g",
+    "category": "gosht_muzlatilgan",
+    "price": 18000,
+    "brand": "frozen_veg",
+    "color": "#16a34a",
+    "shape": "frozen_pack",
+    "size": { "w": 0.32, "h": 0.16, "d": 0.22 },
+    "korzinkaPlacement": "frozen_freezer"
   },
 
   {
     "id": "grocery_oil",
-    "name": "Oltin Kalit Yog' 1L",
+    "name": "Oltin Kalit Pista Yog'i 1L",
     "category": "baqqollik",
     "price": 18500,
     "brand": "oil",
     "color": "#eab308",
     "shape": "bottle",
-    "size": { "w": 0.22, "h": 0.58, "d": 0.22 }
+    "size": { "w": 0.22, "h": 0.58, "d": 0.22 },
+    "korzinkaPlacement": "ambient_shelf"
   },
   {
     "id": "grocery_rice",
-    "name": "Lazer Guruch 1kg",
+    "name": "Lazer Guruch Saralangan 1kg",
     "category": "baqqollik",
     "price": 26000,
     "brand": "rice",
     "color": "#f8fafc",
     "shape": "box",
-    "size": { "w": 0.28, "h": 0.45, "d": 0.2 }
+    "size": { "w": 0.28, "h": 0.45, "d": 0.2 },
+    "korzinkaPlacement": "ambient_shelf"
   },
   {
-    "id": "grocery_pasta",
+    "id": "grocery_pasta_makfa",
     "name": "Makfa Spagetti 500g",
     "category": "baqqollik",
     "price": 11000,
     "brand": "makfa",
     "color": "#15803d",
     "shape": "box",
-    "size": { "w": 0.2, "h": 0.52, "d": 0.16 }
+    "size": { "w": 0.2, "h": 0.52, "d": 0.16 },
+    "korzinkaPlacement": "ambient_shelf"
   },
   {
-    "id": "grocery_tea",
-    "name": "Tess Choy 100g",
+    "id": "grocery_tea_tess",
+    "name": "Tess Qora Choy 100g",
     "category": "baqqollik",
     "price": 17000,
     "brand": "tea",
     "color": "#dc2626",
     "shape": "box",
-    "size": { "w": 0.24, "h": 0.35, "d": 0.18 }
+    "size": { "w": 0.24, "h": 0.35, "d": 0.18 },
+    "korzinkaPlacement": "ambient_shelf"
   },
   {
-    "id": "grocery_coffee",
-    "name": "Nescafe Classic 100g",
+    "id": "grocery_coffee_nescafe",
+    "name": "Nescafe Classic Qahva 100g",
     "category": "baqqollik",
     "price": 29000,
     "brand": "nescafe",
     "color": "#b91c1c",
     "shape": "can",
-    "size": { "w": 0.22, "h": 0.38, "d": 0.22 }
-  },
-  {
-    "id": "grocery_sugar",
-    "name": "Shakar Oq 1kg",
-    "category": "baqqollik",
-    "price": 14000,
-    "brand": "rice",
-    "color": "#f1f5f9",
-    "shape": "box",
-    "size": { "w": 0.26, "h": 0.42, "d": 0.2 }
+    "size": { "w": 0.22, "h": 0.38, "d": 0.22 },
+    "korzinkaPlacement": "ambient_shelf"
   },
   {
     "id": "grocery_flour",
-    "name": "Oltin Don Un 2kg",
+    "name": "Oltin Don Bug'doy Uni 2kg",
     "category": "baqqollik",
     "price": 19000,
-    "brand": "rice",
+    "brand": "flour",
     "color": "#fef08a",
     "shape": "box",
-    "size": { "w": 0.3, "h": 0.46, "d": 0.22 }
+    "size": { "w": 0.3, "h": 0.46, "d": 0.22 },
+    "korzinkaPlacement": "ambient_shelf"
   },
   {
-    "id": "grocery_salt",
-    "name": "Osh Tuzi Yodlangan 1kg",
+    "id": "canned_tuna_unes",
+    "name": "Tunes Tuna Baliq Konservasi 185g",
     "category": "baqqollik",
-    "price": 3000,
-    "brand": "rice",
-    "color": "#38bdf8",
+    "price": 24000,
+    "brand": "tuna",
+    "color": "#0284c7",
+    "shape": "can",
+    "size": { "w": 0.26, "h": 0.18, "d": 0.26 },
+    "korzinkaPlacement": "ambient_shelf"
+  },
+  {
+    "id": "canned_bonduelle_corn",
+    "name": "Bonduelle Shirin Jo'xori 340g",
+    "category": "baqqollik",
+    "price": 18000,
+    "brand": "corn",
+    "color": "#15803d",
+    "shape": "can",
+    "size": { "w": 0.24, "h": 0.3, "d": 0.24 },
+    "korzinkaPlacement": "ambient_shelf"
+  },
+
+  {
+    "id": "hh_tide",
+    "name": "Tide Avtomat Kir Yuvish Kukuni 3kg",
+    "category": "maishiy_kimyo",
+    "price": 62000,
+    "brand": "tide",
+    "color": "#ea580c",
     "shape": "box",
-    "size": { "w": 0.24, "h": 0.38, "d": 0.18 }
+    "size": { "w": 0.34, "h": 0.48, "d": 0.22 },
+    "korzinkaPlacement": "ambient_shelf"
+  },
+  {
+    "id": "hh_fairy",
+    "name": "Fairy Idish Yuvish Geli 900ml",
+    "category": "maishiy_kimyo",
+    "price": 23000,
+    "brand": "fairy",
+    "color": "#16a34a",
+    "shape": "bottle",
+    "size": { "w": 0.22, "h": 0.52, "d": 0.2 },
+    "korzinkaPlacement": "ambient_shelf"
+  },
+  {
+    "id": "hh_domestos",
+    "name": "Domestos Tozalovchi Gel 1L",
+    "category": "maishiy_kimyo",
+    "price": 26000,
+    "brand": "domestos",
+    "color": "#1d4ed8",
+    "shape": "bottle",
+    "size": { "w": 0.24, "h": 0.54, "d": 0.22 },
+    "korzinkaPlacement": "ambient_shelf"
+  },
+  {
+    "id": "hh_papia",
+    "name": "Papia 3 Qavatli Hojatxona Qog'ozi 8 dona",
+    "category": "maishiy_kimyo",
+    "price": 34000,
+    "brand": "papia",
+    "color": "#f8fafc",
+    "shape": "box",
+    "size": { "w": 0.44, "h": 0.38, "d": 0.28 },
+    "korzinkaPlacement": "ambient_shelf"
   }
 ]

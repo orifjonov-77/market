@@ -3,8 +3,14 @@ import { ProductItem } from '../types';
 import { ProductTextureGenerator } from './productTextureGenerator';
 
 /**
- * Supermarketdagi har bir mahsulotni 3D model sifatida yasovchi klass.
- * Shirinliklar, shishalar, bankalar va qutilarning o'ziga xos geometriyasi.
+ * Supermarketdagi har bir mahsulotni haqiqiy qadoq va shaklda yasovchi factory:
+ * - Shishalar (Kola, suvlar, yog', kefir, fairy, domestos)
+ * - TetraPak va sut qutilari (Kamilka, Musaffo)
+ * - Konserva metall bankalari (Tunes, Sardina, Bonduelle, Nutella)
+ * - Qutilar va batonchiklar (Snickers, Twix, Milka, ChocoPie, Makfa, Tess, Guruch, Tide, Papia)
+ * - Yumaloq nonlar (Samarqand non, Patir)
+ * - Meva va sabzavotlar (Olma, banan, apelsin, kartoshka, pomidor, bodring)
+ * - Muzlatilgan mahsulotlar (Tovuq, mol go'shti, chuchvara, sabzavotlar)
  */
 export class ProductModelFactory {
   public static createProductModel(product: ProductItem): THREE.Group {
@@ -15,28 +21,38 @@ export class ProductModelFactory {
         this.buildBottle(group, product);
         break;
       case 'can':
-        this.buildNutellaJar(group, product);
+        this.buildCan(group, product);
+        break;
+      case 'bread_round':
+        this.buildBread(group, product);
+        break;
+      case 'fruit':
+        this.buildFruit(group, product);
+        break;
+      case 'frozen_pack':
+        this.buildFrozenPack(group, product);
+        break;
+      case 'cylinder':
+        this.buildCylinder(group, product);
         break;
       case 'box':
       default:
-        this.buildSweetBox(group, product);
+        this.buildBox(group, product);
         break;
     }
 
     return group;
   }
 
-  /**
-   * 1. SHIRINLIK QUTILARI VA BATONCHIKLARI (Twix, Choco-Pie, Oreo, Milka, Snickers)
-   */
-  private static buildSweetBox(group: THREE.Group, product: ProductItem): void {
+  // 1. QUTILAR VA BATONCHIKLAR
+  private static buildBox(group: THREE.Group, product: ProductItem): void {
     const { w, h, d } = product.size;
     const texture = ProductTextureGenerator.getTexture(product, 1024, 512);
 
     const sideMat = new THREE.MeshStandardMaterial({
       color: new THREE.Color(product.color),
       roughness: 0.25,
-      metalness: 0.1,
+      metalness: 0.08,
     });
 
     const frontMat = new THREE.MeshStandardMaterial({
@@ -56,41 +72,51 @@ export class ProductModelFactory {
     box.castShadow = true;
     box.receiveShadow = true;
     group.add(box);
+
+    if (product.brand === 'milk_kamilka' || product.brand === 'milk_musaffo') {
+      const cap = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.04, 0.04, 0.03, 16),
+        new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.2 })
+      );
+      cap.position.set(w * 0.22, h + 0.015, 0);
+      group.add(cap);
+    }
   }
 
-  /**
-   * 2. NUTELLA BANKASI (Rasmdagi oq qopqoqli va shisha tanali banka)
-   */
-  private static buildNutellaJar(group: THREE.Group, product: ProductItem): void {
+  // 2. KONSERVA VA BANKALAR
+  private static buildCan(group: THREE.Group, product: ProductItem): void {
     const { w, h } = product.size;
     const r = w / 2;
-
     const texture = ProductTextureGenerator.getTexture(product, 1024, 512);
 
-    // Shisha banka tanasi
+    const isNutella = product.brand === 'nutella';
+    const bodyGeo = new THREE.CylinderGeometry(r, r, h * 0.85, 32);
     const bodyMat = new THREE.MeshStandardMaterial({
       map: texture,
       roughness: 0.2,
+      metalness: isNutella ? 0.05 : 0.4,
     });
-    const body = new THREE.Mesh(new THREE.CylinderGeometry(r, r, h * 0.8, 32), bodyMat);
-    body.position.y = (h * 0.8) / 2;
+    const body = new THREE.Mesh(bodyGeo, bodyMat);
+    body.position.y = (h * 0.85) / 2;
     body.castShadow = true;
     group.add(body);
 
-    // Oq qopqoq (krishka)
+    const capColor = isNutella ? 0xffffff : 0xd1d5db;
     const capMat = new THREE.MeshStandardMaterial({
-      color: 0xffffff,
-      roughness: 0.3,
+      color: capColor,
+      roughness: isNutella ? 0.3 : 0.2,
+      metalness: isNutella ? 0.05 : 0.85,
     });
-    const cap = new THREE.Mesh(new THREE.CylinderGeometry(r * 0.95, r * 0.95, h * 0.2, 28), capMat);
-    cap.position.y = h * 0.8 + (h * 0.2) / 2;
-    cap.castShadow = true;
-    group.add(cap);
+
+    const topRim = new THREE.Mesh(
+      new THREE.CylinderGeometry(r * 1.02, r, h * 0.1, 32),
+      capMat
+    );
+    topRim.position.y = h - (h * 0.1) / 2;
+    group.add(topRim);
   }
 
-  /**
-   * 3. ICHIMLIK SHISHALARI (Nestle, Montella, Sprite, Fanta, Cola, Pepsi)
-   */
+  // 3. SHISHALAR
   private static buildBottle(group: THREE.Group, product: ProductItem): void {
     const { w, h } = product.size;
     const r = w / 2;
@@ -133,6 +159,24 @@ export class ProductModelFactory {
       liquidColor = 0x140602;
       liquidOpacity = 0.98;
       capColor = 0x005cb9;
+    } else if (product.brand === 'oil') {
+      liquidColor = 0xfacc15;
+      liquidOpacity = 0.75;
+      plasticColor = 0xfef08a;
+      plasticOpacity = 0.5;
+      capColor = 0xeab308;
+    } else if (product.brand === 'fairy') {
+      liquidColor = 0x16a34a;
+      liquidOpacity = 0.85;
+      capColor = 0xdc2626;
+    } else if (product.brand === 'domestos') {
+      liquidColor = 0x1e3a8a;
+      liquidOpacity = 0.98;
+      capColor = 0xdc2626;
+    } else if (product.brand === 'kefir') {
+      liquidColor = 0xffffff;
+      liquidOpacity = 0.98;
+      capColor = 0x059669;
     }
 
     const liquidMat = new THREE.MeshStandardMaterial({
@@ -225,5 +269,83 @@ export class ProductModelFactory {
     capMesh.position.y = neckBaseY + neckHeight + capHeight / 2;
     capMesh.castShadow = true;
     group.add(capMesh);
+  }
+
+  // 4. MEVA VA SABZAVOTLAR
+  private static buildFruit(group: THREE.Group, product: ProductItem): void {
+    const { w } = product.size;
+    const r = w / 2;
+
+    const fruitMat = new THREE.MeshStandardMaterial({
+      color: new THREE.Color(product.color),
+      roughness: 0.35,
+      metalness: 0.05,
+    });
+
+    let geo: THREE.BufferGeometry;
+    if (product.brand === 'produce_banana') {
+      geo = new THREE.CylinderGeometry(r * 0.5, r * 0.4, w * 1.2, 16);
+    } else if (product.brand === 'produce_cucumber') {
+      geo = new THREE.CylinderGeometry(r * 0.45, r * 0.4, w * 1.3, 16);
+    } else {
+      geo = new THREE.SphereGeometry(r, 24, 24);
+    }
+
+    const mesh = new THREE.Mesh(geo, fruitMat);
+    mesh.position.y = r;
+    mesh.castShadow = true;
+    group.add(mesh);
+  }
+
+  // 5. MUZLATILGAN PAKETLAR
+  private static buildFrozenPack(group: THREE.Group, product: ProductItem): void {
+    const { w, h, d } = product.size;
+    const texture = ProductTextureGenerator.getTexture(product, 1024, 512);
+
+    const packGeo = new THREE.BoxGeometry(w, h, d);
+    const packMat = new THREE.MeshStandardMaterial({
+      map: texture,
+      roughness: 0.3,
+      metalness: 0.1,
+    });
+
+    const mesh = new THREE.Mesh(packGeo, packMat);
+    mesh.position.y = h / 2;
+    mesh.castShadow = true;
+    group.add(mesh);
+  }
+
+  // 6. NON
+  private static buildBread(group: THREE.Group, product: ProductItem): void {
+    const { w, h } = product.size;
+    const r = w / 2;
+    const texture = ProductTextureGenerator.getTexture(product, 512, 512);
+
+    const breadGeo = new THREE.CylinderGeometry(r, r * 0.9, h, 32);
+    const breadMat = new THREE.MeshStandardMaterial({
+      map: texture,
+      roughness: 0.85,
+    });
+    const bread = new THREE.Mesh(breadGeo, breadMat);
+    bread.position.y = h / 2;
+    bread.castShadow = true;
+    group.add(bread);
+  }
+
+  // 7. SILINDR
+  private static buildCylinder(group: THREE.Group, product: ProductItem): void {
+    const { w, h } = product.size;
+    const r = w / 2;
+    const texture = ProductTextureGenerator.getTexture(product, 1024, 512);
+
+    const geo = new THREE.CylinderGeometry(r, r * 0.88, h, 32);
+    const mat = new THREE.MeshStandardMaterial({
+      map: texture,
+      roughness: 0.25,
+    });
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.position.y = h / 2;
+    mesh.castShadow = true;
+    group.add(mesh);
   }
 }

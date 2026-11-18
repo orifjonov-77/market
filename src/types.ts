@@ -6,13 +6,13 @@ export interface ProductItem {
   brand: string;
   color: string;
   secondaryColor?: string;
-  accentColor?: string;
-  shape: 'box' | 'cylinder' | 'bottle' | 'can' | 'bread_round';
+  shape: 'bottle' | 'can' | 'box' | 'cylinder' | 'bread_round' | 'pouch' | 'fruit' | 'frozen_pack';
   size: {
     w: number;
     h: number;
     d: number;
   };
+  korzinkaPlacement: 'ambient_shelf' | 'chilled_fridge' | 'frozen_freezer' | 'produce_crate' | 'bakery_rack';
 }
 
 export interface CartItem {
