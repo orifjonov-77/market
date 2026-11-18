@@ -313,15 +313,14 @@ export class ShelvesManager {
     this.scene = scene;
     this.labelManager = labelManager;
     this.buildFourDepartmentAisles();
+    this.buildSideAislesAndRefrigerators();
   }
 
   /**
-   * Foydalanuvchi talabi bo'yicha:
-   * 1-OROL (Z = -3.5): Oldida Shirinliklar, Orqasida Suv/Kola
-   * 2-OROL (Z = 3.5): Oldida Konserva, Orqasida Sut mahsulotlari
+   * Supermarketning markaziy 2 ta katta gondolasi (Island 1 & Island 2)
    */
   private buildFourDepartmentAisles(): void {
-    // 1-Gondola: Oldi = Shirinliklar, Orqasi = Ichimliklar
+    // 1-Gondola: Z = -3.5 (Oldi = Shirinliklar, Orqasi = Ichimliklar)
     this.createGondolaIsland(
       0,
       -3.5,
@@ -331,7 +330,7 @@ export class ShelvesManager {
       this.drinkProducts
     );
 
-    // 2-Gondola: Oldi = Konservalar, Orqasi = Sut mahsulotlari
+    // 2-Gondola: Z = 3.5 (Oldi = Konservalar, Orqasi = Sut mahsulotlari)
     this.createGondolaIsland(
       0,
       3.5,
@@ -340,6 +339,366 @@ export class ShelvesManager {
       'SUT VA SUT MAHSULOTLARI',
       this.dairyProducts
     );
+  }
+
+  /**
+   * Bo'sh joylarni to'ldirish:
+   * - Old tomonga (Z = 10.0) yangi qo'shimcha gondola javon
+   * - Orqa devor bo'ylab (Z = -14.5) Korzinka uslubidagi zamonaviy shisha eshikli Katta Muzlatkich / Sovutkichlar
+   * - Yon tomonlarga (X = -13 va X = 13) qo'shimcha javonlar
+   */
+  private buildSideAislesAndRefrigerators(): void {
+    // 3-Gondola (Old tomondagi bo'sh joyga): Baqqollik va Choy/Qahva
+    this.createGondolaIsland(
+      0,
+      10.0,
+      'BAQCOLLIK VA DON MAHSULOTLARI',
+      this.groceryProducts,
+      'MAISHIY KIMYO VA GIGIENA',
+      this.householdProducts
+    );
+
+    // Orqa devor (Z = -15) bo'ylab Katta Shisha Muzlatkichlar (Refrigerators)
+    this.createWallRefrigerators(0, -15.5, 18.0);
+  }
+
+  // 5. BAQCOLLIK
+  private groceryProducts: ProductItem[] = [
+    {
+      id: 'rice_lazir',
+      name: 'Lazer Guruch 1kg',
+      category: 'baqqollik',
+      price: 24000,
+      brand: 'rice',
+      color: '#ffffff',
+      shape: 'box',
+      size: { w: 0.32, h: 0.42, d: 0.22 },
+      korzinkaPlacement: 'ambient_shelf'
+    },
+    {
+      id: 'makfa_spaghetti',
+      name: 'Makfa Spaghetti 500g',
+      category: 'baqqollik',
+      price: 11000,
+      brand: 'makfa',
+      color: '#15803d',
+      shape: 'box',
+      size: { w: 0.22, h: 0.55, d: 0.16 },
+      korzinkaPlacement: 'ambient_shelf'
+    },
+    {
+      id: 'oil_oleina',
+      name: 'Oleina Kungaboqar Moyi 1L',
+      category: 'baqqollik',
+      price: 18500,
+      brand: 'oil',
+      color: '#eab308',
+      shape: 'bottle',
+      size: { w: 0.22, h: 0.58, d: 0.22 },
+      korzinkaPlacement: 'ambient_shelf'
+    },
+    {
+      id: 'tea_champion',
+      name: 'Champion Choy 250g',
+      category: 'baqqollik',
+      price: 26000,
+      brand: 'tea',
+      color: '#dc2626',
+      shape: 'box',
+      size: { w: 0.3, h: 0.38, d: 0.2 },
+      korzinkaPlacement: 'ambient_shelf'
+    },
+    {
+      id: 'nescafe_classic',
+      name: 'Nescafé Classic Qahva 190g',
+      category: 'baqqollik',
+      price: 49000,
+      brand: 'nescafe',
+      color: '#78350f',
+      shape: 'can',
+      size: { w: 0.26, h: 0.42, d: 0.26 },
+      korzinkaPlacement: 'ambient_shelf'
+    },
+    {
+      id: 'flour_dilyor',
+      name: 'Oliy Nav Bug\'doy Uni 2kg',
+      category: 'baqqollik',
+      price: 16000,
+      brand: 'flour',
+      color: '#f8fafc',
+      shape: 'box',
+      size: { w: 0.35, h: 0.48, d: 0.25 },
+      korzinkaPlacement: 'ambient_shelf'
+    }
+  ];
+
+  // 6. MAISHIY KIMYO
+  private householdProducts: ProductItem[] = [
+    {
+      id: 'chem_tide',
+      name: 'Tide Kir Yuvish Kukuni 3kg',
+      category: 'maishiy_kimyo',
+      price: 68000,
+      brand: 'tide',
+      color: '#ea580c',
+      shape: 'box',
+      size: { w: 0.38, h: 0.46, d: 0.22 },
+      korzinkaPlacement: 'ambient_shelf'
+    },
+    {
+      id: 'chem_fairy',
+      name: 'Fairy Idish Yuvish Geli 900ml',
+      category: 'maishiy_kimyo',
+      price: 24000,
+      brand: 'fairy',
+      color: '#15803d',
+      shape: 'bottle',
+      size: { w: 0.24, h: 0.54, d: 0.22 },
+      korzinkaPlacement: 'ambient_shelf'
+    },
+    {
+      id: 'chem_domestos',
+      name: 'Domestos Tozalovchi Gel 1L',
+      category: 'maishiy_kimyo',
+      price: 26000,
+      brand: 'domestos',
+      color: '#1d4ed8',
+      shape: 'bottle',
+      size: { w: 0.24, h: 0.56, d: 0.22 },
+      korzinkaPlacement: 'ambient_shelf'
+    },
+    {
+      id: 'chem_papia',
+      name: 'Papia Sochig\'i 4 dona',
+      category: 'maishiy_kimyo',
+      price: 28000,
+      brand: 'papia',
+      color: '#ec4899',
+      shape: 'box',
+      size: { w: 0.38, h: 0.4, d: 0.26 },
+      korzinkaPlacement: 'ambient_shelf'
+    },
+    {
+      id: 'chem_shampoo',
+      name: 'Head & Shoulders Shampun 400ml',
+      category: 'maishiy_kimyo',
+      price: 38000,
+      brand: 'domestos',
+      color: '#0284c7',
+      shape: 'bottle',
+      size: { w: 0.22, h: 0.52, d: 0.2 },
+      korzinkaPlacement: 'ambient_shelf'
+    },
+    {
+      id: 'chem_soap',
+      name: 'Duru Sovun 4x90g',
+      category: 'maishiy_kimyo',
+      price: 15000,
+      brand: 'fairy',
+      color: '#10b981',
+      shape: 'box',
+      size: { w: 0.32, h: 0.25, d: 0.2 },
+      korzinkaPlacement: 'ambient_shelf'
+    }
+  ];
+
+  /**
+   * KORZINKA MUZLATKICH VA SOVUTKICHLAR DEVOLI (Orqa tomon devori)
+   * Shisha eshikli, neon ko'k chiroqli, tovuq, go'sht, yarim tayyor muzlatilgan mahsulotlar
+   */
+  private createWallRefrigerators(centerX: number, centerZ: number, totalWidth: number): void {
+    const fridgeGroup = new THREE.Group();
+    fridgeGroup.position.set(centerX, 0, centerZ);
+
+    const fridgeHeight = 2.7;
+    const fridgeDepth = 1.2;
+
+    const fridgeBodyMat = new THREE.MeshStandardMaterial({
+      color: 0x1e293b,
+      metalness: 0.6,
+      roughness: 0.3,
+    });
+
+    const fridgeInnerMat = new THREE.MeshStandardMaterial({
+      color: 0xf8fafc,
+      roughness: 0.2,
+    });
+
+    const glassDoorMat = new THREE.MeshStandardMaterial({
+      color: 0x93c5fd,
+      transparent: true,
+      opacity: 0.35,
+      roughness: 0.05,
+      metalness: 0.1,
+    });
+
+    const neonGlowMat = new THREE.MeshBasicMaterial({
+      color: 0x38bdf8,
+    });
+
+    // Asosiy korpus
+    const body = new THREE.Mesh(
+      new THREE.BoxGeometry(totalWidth, fridgeHeight, fridgeDepth),
+      fridgeBodyMat
+    );
+    body.position.set(0, fridgeHeight / 2, 0);
+    fridgeGroup.add(body);
+
+    // Ichki o'yilgan qism (yengil bo'shliq foni)
+    const inner = new THREE.Mesh(
+      new THREE.BoxGeometry(totalWidth - 0.4, fridgeHeight - 0.5, 0.1),
+      fridgeInnerMat
+    );
+    inner.position.set(0, fridgeHeight / 2 - 0.05, -0.4);
+    fridgeGroup.add(inner);
+
+    // Tepadagi tablichka: "MUZLATILGAN MAHSULOTLAR VA GO'SHT BO'LIMI"
+    const signCanvas = document.createElement('canvas');
+    signCanvas.width = 1024;
+    signCanvas.height = 128;
+    const sCtx = signCanvas.getContext('2d')!;
+    sCtx.fillStyle = '#0284c7';
+    sCtx.fillRect(0, 0, 1024, 128);
+    sCtx.strokeStyle = '#ffffff';
+    sCtx.lineWidth = 4;
+    sCtx.strokeRect(8, 8, 1008, 112);
+    sCtx.fillStyle = '#ffffff';
+    sCtx.font = '900 42px "Arial Black", sans-serif';
+    sCtx.textAlign = 'center';
+    sCtx.textBaseline = 'middle';
+    sCtx.fillText('❄️   MUZLATILGAN MAHSULOTLAR VA GO\'SHT   ❄️', 512, 64);
+
+    const signBoard = new THREE.Mesh(
+      new THREE.PlaneGeometry(totalWidth * 0.7, 0.45),
+      new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(signCanvas) })
+    );
+    signBoard.position.set(0, fridgeHeight + 0.25, fridgeDepth / 2 + 0.02);
+    fridgeGroup.add(signBoard);
+
+    // Shisha eshiklar (har 2 metrda bitta shisha ramka va neon)
+    const doorCount = Math.floor(totalWidth / 2.2);
+    const doorStep = totalWidth / doorCount;
+
+    for (let i = 0; i < doorCount; i++) {
+      const doorX = -totalWidth / 2 + (i + 0.5) * doorStep;
+
+      // Shisha eshik
+      const door = new THREE.Mesh(
+        new THREE.BoxGeometry(doorStep - 0.1, fridgeHeight - 0.6, 0.04),
+        glassDoorMat
+      );
+      door.position.set(doorX, fridgeHeight / 2 - 0.05, fridgeDepth / 2);
+      fridgeGroup.add(door);
+
+      // Eshik tutqichi
+      const handle = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.015, 0.015, 0.6, 8),
+        new THREE.MeshStandardMaterial({ color: 0xe2e8f0, metalness: 0.9 })
+      );
+      handle.position.set(doorX + (doorStep / 2) - 0.2, fridgeHeight / 2 - 0.05, fridgeDepth / 2 + 0.04);
+      fridgeGroup.add(handle);
+
+      // Neon LED ichki chiroq
+      const neonStrip = new THREE.Mesh(
+        new THREE.BoxGeometry(doorStep - 0.2, 0.03, 0.03),
+        neonGlowMat
+      );
+      neonStrip.position.set(doorX, fridgeHeight - 0.38, fridgeDepth / 2 - 0.05);
+      fridgeGroup.add(neonStrip);
+    }
+
+    // Muzlatkich javonlaridagi mahsulotlar (Tovuq, Go'sht, Chuchvara, Muzlatilgan Sabzavot)
+    const frozenTiers = [0.4, 0.9, 1.4, 1.9];
+    const frozenItems: ProductItem[] = [
+      {
+        id: 'frz_chicken',
+        name: 'Halol Tovuq Go\'shti 1kg',
+        category: 'muzlatilgan',
+        price: 36000,
+        brand: 'frozen_chicken',
+        color: '#0284c7',
+        shape: 'box',
+        size: { w: 0.4, h: 0.3, d: 0.28 },
+        korzinkaPlacement: 'refrigerator'
+      },
+      {
+        id: 'frz_beef',
+        name: 'Saralangan Mol Go\'shti 1kg',
+        category: 'muzlatilgan',
+        price: 95000,
+        brand: 'frozen_beef',
+        color: '#991b1b',
+        shape: 'box',
+        size: { w: 0.4, h: 0.28, d: 0.28 },
+        korzinkaPlacement: 'refrigerator'
+      },
+      {
+        id: 'frz_dumplings',
+        name: 'Mazzali Chuchvara 800g',
+        category: 'muzlatilgan',
+        price: 28000,
+        brand: 'frozen_dumplings',
+        color: '#2563eb',
+        shape: 'box',
+        size: { w: 0.38, h: 0.3, d: 0.26 },
+        korzinkaPlacement: 'refrigerator'
+      },
+      {
+        id: 'frz_veg',
+        name: 'Muzlatilgan Sabzavotlar Mix 400g',
+        category: 'muzlatilgan',
+        price: 19000,
+        brand: 'frozen_veg',
+        color: '#16a34a',
+        shape: 'box',
+        size: { w: 0.36, h: 0.28, d: 0.22 },
+        korzinkaPlacement: 'refrigerator'
+      }
+    ];
+
+    frozenTiers.forEach((tierY, idx) => {
+      const prod = frozenItems[idx % frozenItems.length];
+      const itemCount = 14;
+      const colStep = (totalWidth - 1.5) / itemCount;
+
+      for (let c = 0; c < itemCount; c++) {
+        const pX = - (totalWidth - 1.5) / 2 + c * colStep + colStep / 2;
+        const pZ = centerZ + fridgeDepth / 2 - 0.25;
+
+        const prodModel = ProductModelFactory.createProductModel(prod);
+        prodModel.position.set(centerX + pX, tierY, pZ);
+        prodModel.userData = { productId: prod.id, product: prod };
+
+        prodModel.traverse((child) => {
+          if ((child as THREE.Mesh).isMesh) {
+            child.userData = { productId: prod.id, product: prod, parentGroup: prodModel };
+            this.clickableMeshes.push(child);
+          }
+        });
+
+        this.scene.add(prodModel);
+
+        if (c % 3 === 0) {
+          this.labelManager.attachLabel(prodModel, prod);
+        }
+
+        this.productMeshes.push({
+          group: prodModel,
+          product: prod,
+          originalY: tierY,
+        });
+      }
+    });
+
+    this.scene.add(fridgeGroup);
+
+    // Muzlatkich to'qnashuv chegarasi (devor qilib to'sish)
+    const collider = new THREE.Box3();
+    collider.setFromCenterAndSize(
+      new THREE.Vector3(centerX, fridgeHeight / 2, centerZ),
+      new THREE.Vector3(totalWidth + 0.4, fridgeHeight, fridgeDepth + 0.4)
+    );
+    this.shelfColliders.push(collider);
   }
 
   /**
