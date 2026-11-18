@@ -3,11 +3,8 @@ import { ProductItem } from '../types';
 import { ProductTextureGenerator } from './productTextureGenerator';
 
 /**
- * Supermarketdagi ichimlik shishalarini rasmga 100% o'xshash qilib yasovchi klass:
- * - Shaffof suvlar (Montella, Nestle) shaffof ko'k/oq PET plastik va shaffof suv suyuqligiga ega.
- * - Sprite: yashil shaffof shisha.
- * - Fanta: apelsin suyuqlik.
- * - Cola & Pepsi: to'q qora-jigarrang gazlangan kola suyuqligi.
+ * Supermarketdagi har bir mahsulotni 3D model sifatida yasovchi klass.
+ * Shirinliklar, shishalar, bankalar va qutilarning o'ziga xos geometriyasi.
  */
 export class ProductModelFactory {
   public static createProductModel(product: ProductItem): THREE.Group {
@@ -18,11 +15,11 @@ export class ProductModelFactory {
         this.buildBottle(group, product);
         break;
       case 'can':
-        this.buildCan(group, product);
+        this.buildNutellaJar(group, product);
         break;
       case 'box':
       default:
-        this.buildBox(group, product);
+        this.buildSweetBox(group, product);
         break;
     }
 
@@ -30,58 +27,112 @@ export class ProductModelFactory {
   }
 
   /**
-   * 🎯 100% RASMDAGI BIR XIL SHISHA MODELLARI:
-   * Suyuqlik va shisha ranglari:
-   * - nestle: shaffof oq/och havorang suv, ko'k qopqoq
-   * - montella: shaffof toza suv, och ko'k qopqoq
-   * - sprite: yashil shaffof shisha, yashil qopqoq
-   * - fanta: yorqin apelsin rangli suyuqlik, to'q sariq/ko'k qopqoq
-   * - cola: to'q qora kola suyuqligi, qizil qopqoq
-   * - pepsi: to'q qora kola suyuqligi, ko'k qopqoq
+   * 1. SHIRINLIK QUTILARI VA BATONCHIKLARI (Twix, Choco-Pie, Oreo, Milka, Snickers)
+   */
+  private static buildSweetBox(group: THREE.Group, product: ProductItem): void {
+    const { w, h, d } = product.size;
+    const texture = ProductTextureGenerator.getTexture(product, 1024, 512);
+
+    const sideMat = new THREE.MeshStandardMaterial({
+      color: new THREE.Color(product.color),
+      roughness: 0.25,
+      metalness: 0.1,
+    });
+
+    const frontMat = new THREE.MeshStandardMaterial({
+      map: texture,
+      roughness: 0.2,
+      metalness: 0.05,
+    });
+
+    const materials = [
+      sideMat, sideMat, sideMat, sideMat,
+      frontMat, // Old
+      frontMat, // Orqa
+    ];
+
+    const box = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), materials);
+    box.position.y = h / 2;
+    box.castShadow = true;
+    box.receiveShadow = true;
+    group.add(box);
+  }
+
+  /**
+   * 2. NUTELLA BANKASI (Rasmdagi oq qopqoqli va shisha tanali banka)
+   */
+  private static buildNutellaJar(group: THREE.Group, product: ProductItem): void {
+    const { w, h } = product.size;
+    const r = w / 2;
+
+    const texture = ProductTextureGenerator.getTexture(product, 1024, 512);
+
+    // Shisha banka tanasi
+    const bodyMat = new THREE.MeshStandardMaterial({
+      map: texture,
+      roughness: 0.2,
+    });
+    const body = new THREE.Mesh(new THREE.CylinderGeometry(r, r, h * 0.8, 32), bodyMat);
+    body.position.y = (h * 0.8) / 2;
+    body.castShadow = true;
+    group.add(body);
+
+    // Oq qopqoq (krishka)
+    const capMat = new THREE.MeshStandardMaterial({
+      color: 0xffffff,
+      roughness: 0.3,
+    });
+    const cap = new THREE.Mesh(new THREE.CylinderGeometry(r * 0.95, r * 0.95, h * 0.2, 28), capMat);
+    cap.position.y = h * 0.8 + (h * 0.2) / 2;
+    cap.castShadow = true;
+    group.add(cap);
+  }
+
+  /**
+   * 3. ICHIMLIK SHISHALARI (Nestle, Montella, Sprite, Fanta, Cola, Pepsi)
    */
   private static buildBottle(group: THREE.Group, product: ProductItem): void {
     const { w, h } = product.size;
     const r = w / 2;
 
-    // Suyuqlik rangi va shaffoflik sozlamalari
-    let liquidColor = 0x160a04; // Kola qora
+    let liquidColor = 0x140602;
     let liquidOpacity = 0.98;
     let plasticColor = 0xffffff;
     let plasticOpacity = 0.35;
     let capColor = 0x005cb9;
 
     if (product.brand === 'nestle') {
-      liquidColor = 0xe0f2fe; // Shaffof toza suv
+      liquidColor = 0xe0f2fe;
       liquidOpacity = 0.45;
       plasticColor = 0xbae6fd;
       plasticOpacity = 0.55;
-      capColor = 0x0284c7; // Nestlé ko'k qopqog'i
+      capColor = 0x0284c7;
     } else if (product.brand === 'montella') {
-      liquidColor = 0xf0f9ff; // Oq toza suv
+      liquidColor = 0xf0f9ff;
       liquidOpacity = 0.4;
       plasticColor = 0xe0f2fe;
       plasticOpacity = 0.5;
-      capColor = 0x38bdf8; // Montella havorang qopqog'i
+      capColor = 0x38bdf8;
     } else if (product.brand === 'sprite') {
-      liquidColor = 0x15803d; // Zangori-yashil
+      liquidColor = 0x15803d;
       liquidOpacity = 0.75;
       plasticColor = 0x22c55e;
       plasticOpacity = 0.65;
-      capColor = 0x16a34a; // Sprite yashil qopqoq
+      capColor = 0x16a34a;
     } else if (product.brand === 'fanta') {
-      liquidColor = 0xea580c; // Apelsin to'q sariq
+      liquidColor = 0xea580c;
       liquidOpacity = 0.9;
       plasticColor = 0xfb923c;
       plasticOpacity = 0.4;
-      capColor = 0x0284c7; // Fanta ko'k qopqoq
+      capColor = 0x0284c7;
     } else if (product.brand === 'cola') {
-      liquidColor = 0x140602; // Coca-Cola qora
+      liquidColor = 0x140602;
       liquidOpacity = 0.98;
-      capColor = 0xdc2626; // Qizil qopqoq
+      capColor = 0xdc2626;
     } else if (product.brand === 'pepsi') {
-      liquidColor = 0x140602; // Pepsi qora
+      liquidColor = 0x140602;
       liquidOpacity = 0.98;
-      capColor = 0x005cb9; // Pepsi ko'k qopqoq
+      capColor = 0x005cb9;
     }
 
     const liquidMat = new THREE.MeshStandardMaterial({
@@ -107,7 +158,7 @@ export class ProductModelFactory {
       metalness: 0.1,
     });
 
-    // 1. Pastki qism va to'lqinli bel (Waist)
+    // Pastki bel
     const points: THREE.Vector2[] = [];
     points.push(new THREE.Vector2(0, 0));
     points.push(new THREE.Vector2(r * 0.94, 0.02));
@@ -119,7 +170,7 @@ export class ProductModelFactory {
     lowerBody.castShadow = true;
     group.add(lowerBody);
 
-    // 2. Etiketka
+    // Etiketka
     const labelHeight = 0.18;
     const labelY = 0.24 + labelHeight / 2;
     const labelMesh = new THREE.Mesh(
@@ -130,7 +181,6 @@ export class ProductModelFactory {
     labelMesh.castShadow = true;
     group.add(labelMesh);
 
-    // Etiketka ichidagi suyuqlik yadrosi
     const coreLiquid = new THREE.Mesh(
       new THREE.CylinderGeometry(r * 0.99, r * 0.99, labelHeight, 28),
       liquidMat
@@ -138,10 +188,9 @@ export class ProductModelFactory {
     coreLiquid.position.y = labelY;
     group.add(coreLiquid);
 
-    // 3. Yuqori yelka (suyuqlik va havo sathi)
+    // Yelka
     const shoulderBaseY = 0.24 + labelHeight;
     const liquidTopHeight = 0.06;
-
     const shoulderLiquid = new THREE.Mesh(
       new THREE.CylinderGeometry(r * 0.8, r, liquidTopHeight, 32),
       liquidMat
@@ -149,7 +198,6 @@ export class ProductModelFactory {
     shoulderLiquid.position.y = shoulderBaseY + liquidTopHeight / 2;
     group.add(shoulderLiquid);
 
-    // Tepasidagi havo bo'shlig'i (PET plastik)
     const airHeight = 0.08;
     const airMesh = new THREE.Mesh(
       new THREE.CylinderGeometry(r * 0.42, r * 0.8, airHeight, 32),
@@ -158,7 +206,7 @@ export class ProductModelFactory {
     airMesh.position.y = shoulderBaseY + liquidTopHeight + airHeight / 2;
     group.add(airMesh);
 
-    // 4. Bo'yin va Krishka (Qopqoq)
+    // Bo'yin va qopqoq
     const neckBaseY = shoulderBaseY + liquidTopHeight + airHeight;
     const neckHeight = 0.04;
     const neckMesh = new THREE.Mesh(
@@ -177,41 +225,5 @@ export class ProductModelFactory {
     capMesh.position.y = neckBaseY + neckHeight + capHeight / 2;
     capMesh.castShadow = true;
     group.add(capMesh);
-
-    const ringMesh = new THREE.Mesh(
-      new THREE.CylinderGeometry(r * 0.42, r * 0.42, 0.01, 24),
-      capMat
-    );
-    ringMesh.position.y = neckBaseY + neckHeight - 0.006;
-    group.add(ringMesh);
-  }
-
-  private static buildCan(group: THREE.Group, product: ProductItem): void {
-    const { w, h } = product.size;
-    const r = w / 2;
-    const texture = ProductTextureGenerator.getTexture(product, 1024, 512);
-
-    const body = new THREE.Mesh(
-      new THREE.CylinderGeometry(r, r, h * 0.88, 32),
-      new THREE.MeshStandardMaterial({ map: texture, roughness: 0.25 })
-    );
-    body.position.y = h / 2;
-    body.castShadow = true;
-    group.add(body);
-  }
-
-  private static buildBox(group: THREE.Group, product: ProductItem): void {
-    const { w, h, d } = product.size;
-    const texture = ProductTextureGenerator.getTexture(product, 1024, 512);
-    const sideMat = new THREE.MeshStandardMaterial({ color: new THREE.Color(product.color) });
-    const frontMat = new THREE.MeshStandardMaterial({ map: texture });
-
-    const box = new THREE.Mesh(
-      new THREE.BoxGeometry(w, h, d),
-      [sideMat, sideMat, sideMat, sideMat, frontMat, frontMat]
-    );
-    box.position.y = h / 2;
-    box.castShadow = true;
-    group.add(box);
   }
 }
