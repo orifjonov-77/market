@@ -10,26 +10,11 @@ export interface InteractiveProduct {
 }
 
 /**
- * Supermarketda xuddi rasmda ko'rsatganingizdek 2 TA KATTA MUSTAQIL JAVON QATORI:
- *
- * 1-JAVON (O'ng tomonda): "🛒 ICHIMLIKLAR VA SULAR 🛒"
- * 6-qavat: Nestlé Pure Life 1.5L
- * 5-qavat: Montella 1.5L
- * 4-qavat: Sprite 1.5L
- * 3-qavat: Fanta Orange 1.5L
- * 2-qavat: Coca-Cola 1.5L
- * 1-qavat: Pepsi 1.5L
- *
- * 2-JAVON (Chap tomonda): "🛒 SHIRINLIKLAR VA PECHYONELAR 🛒"
- * 6-qavat: Twix Xtra 75g
- * 5-qavat: Lotte Choco-Pie 12x
- * 4-qavat: Oreo Original 154g
- * 3-qavat: Nutella Pastasi 350g
- * 2-qavat: Milka Alpskiy 100g
- * 1-qavat: Snickers Super 80g
- *
- * Ikkala javon ham ikki tomonlama (old va orqasi to'la), bir-biriga yopishmagan,
- * o'rtada 8 metrli keng chiroyli supermarket yo'lagi bor!
+ * Supermarketda 2 TA MUSTAQIL JAVON:
+ * Ular bir chiziqda yonma-yon yopishib turmaydi!
+ * 1-javon (ICHIMLIKLAR) va 2-javon (SHIRINLIKLAR) bir-biriga yuzma-yuz (Parallel) qarab turadi,
+ * ularning o'rtasida KORZINKA uslubidagi 5 METRLI KENG XARID YO'LAKCHASI (Aisle) bor!
+ * Odam bemalol ikkala javon orasidan aravacha bilan o'tib xarid qiladi.
  */
 export class ShelvesManager {
   private scene: THREE.Scene;
@@ -38,7 +23,7 @@ export class ShelvesManager {
   public productMeshes: InteractiveProduct[] = [];
   public clickableMeshes: THREE.Object3D[] = [];
 
-  // 1-JAVON UCHUN ICHIMLIKLAR RO'YXATI (1-qavatdan 6-qavatgacha)
+  // 1-JAVON: ICHIMLIKLAR VA SULAR
   private drinkProducts: ProductItem[] = [
     {
       id: 'pepsi_15',
@@ -108,7 +93,7 @@ export class ShelvesManager {
     }
   ];
 
-  // 2-JAVON UCHUN SHIRINLIKLAR RO'YXATI (1-qavatdan 6-qavatgacha)
+  // 2-JAVON: SHIRINLIKLAR VA PECHYONELAR
   private sweetProducts: ProductItem[] = [
     {
       id: 'snickers_80',
@@ -181,23 +166,23 @@ export class ShelvesManager {
   constructor(scene: THREE.Scene, labelManager: LabelManager) {
     this.scene = scene;
     this.labelManager = labelManager;
-    this.buildTwoStandaloneAisles();
+    this.buildParallelAislesWithSpace();
   }
 
   /**
-   * O'tgan safargidek 2 TA KATTA ALOHIDA JAVON (Bir-biriga yopishmagan, toza va keng)
+   * Supermarketda 2 ta javon yuzma-yuz (parallel) turadi:
+   * 1-javon: Z = -2.5 da
+   * 2-javon: Z = 3.5 da
+   * O'rtasida 6 metrli keng yo'lak bor, hech narsa bir-biriga tegilmaydi!
    */
-  private buildTwoStandaloneAisles(): void {
-    // 1-JAVON (O'ng tomonda X = 5): ICHIMLIKLAR VA SULAR
-    this.createPhotoExactShelf(5, 0, 'ICHIMLIKLAR VA SULAR', this.drinkProducts);
+  private buildParallelAislesWithSpace(): void {
+    // 1-JAVON (Orqadagi Z = -2.5): ICHIMLIKLAR VA SULAR
+    this.createPhotoExactShelf(0, -3.0, 'ICHIMLIKLAR VA SULAR', this.drinkProducts);
 
-    // 2-JAVON (Chap tomonda X = -5): SHIRINLIKLAR VA PECHYONELAR
-    this.createPhotoExactShelf(-5, 0, 'SHIRINLIKLAR VA PECHYONELAR', this.sweetProducts);
+    // 2-JAVON (Oldindagi Z = 3.5): SHIRINLIKLAR VA PECHYONELAR
+    this.createPhotoExactShelf(0, 3.5, 'SHIRINLIKLAR VA PECHYONELAR', this.sweetProducts);
   }
 
-  /**
-   * Rasmdagi kabi 6 qavatli mustaqil javon
-   */
   private createPhotoExactShelf(
     centerX: number,
     centerZ: number,
@@ -237,7 +222,7 @@ export class ShelvesManager {
     backPanel.castShadow = true;
     rowGroup.add(backPanel);
 
-    // 2. Qizil ustunlar (Stoykalar)
+    // 2. Qizil stoykalar
     const postGeo = new THREE.BoxGeometry(0.08, shelfHeight, 0.08);
     [-shelfWidth / 2, -shelfWidth / 6, shelfWidth / 6, shelfWidth / 2].forEach((x) => {
       const post = new THREE.Mesh(postGeo, shelfRedMat);
@@ -297,21 +282,20 @@ export class ShelvesManager {
       backEdge.position.set(0, tierY + 0.02, -shelfDepth / 2 - 0.01);
       rowGroup.add(backEdge);
 
-      // Old xrom sim
+      // Xrom simlar
       const wireGeo = new THREE.CylinderGeometry(0.005, 0.005, shelfWidth, 8);
       const wireFront = new THREE.Mesh(wireGeo, wireMat);
       wireFront.rotation.z = Math.PI / 2;
       wireFront.position.set(0, tierY + 0.065, shelfDepth / 2 + 0.015);
       rowGroup.add(wireFront);
 
-      // Orqa xrom sim
       const wireBack = new THREE.Mesh(wireGeo, wireMat);
       wireBack.rotation.z = Math.PI / 2;
       wireBack.position.set(0, tierY + 0.065, -shelfDepth / 2 - 0.015);
       rowGroup.add(wireBack);
     });
 
-    // 5. TEPADAGI KATTA QIZIL TABLICHKA (Ikki tomonlama)
+    // 5. TEPADAGI QIZIL KORZINKA TABLICHKASI (Ikki tomonlama)
     const signBoard = new THREE.Mesh(
       new THREE.BoxGeometry(shelfWidth * 0.74, 0.44, 0.06),
       shelfRedMat
@@ -360,7 +344,7 @@ export class ShelvesManager {
     );
     this.shelfColliders.push(collider);
 
-    // 6. MAHSULOTLARNI OLDIGA HAM, ORQASIGA HAM TO'LIQ TERISH
+    // Mahsulotlarni old va orqa tomonga terish
     this.populateBothSides(centerX, centerZ, tierHeights, shelfWidth, tierProductList);
   }
 
@@ -371,13 +355,11 @@ export class ShelvesManager {
     shelfWidth: number,
     productList: ProductItem[]
   ): void {
-    // Old (+0.28) va Orqa (-0.28) tomonlar
     const sides = [0.28, -0.28];
-    const columnsCount = 18; // Har bir qavatda 18 tadan mahsulot
+    const columnsCount = 18;
     const colStep = (shelfWidth - 0.8) / columnsCount;
 
     tierHeights.forEach((tierY, tierIdx) => {
-      // 0 dan 5 gacha qavatlar bo'yicha mahsulot
       const currentProduct = productList[tierIdx];
 
       sides.forEach((sideZ) => {
@@ -389,7 +371,6 @@ export class ShelvesManager {
           const prodModel = ProductModelFactory.createProductModel(currentProduct);
           prodModel.position.set(posX, spawnY, posZ);
 
-          // Orqa tomondagilarni tashqariga qaratish
           if (sideZ < 0) {
             prodModel.rotation.y = Math.PI;
           }
@@ -412,7 +393,6 @@ export class ShelvesManager {
 
           this.scene.add(prodModel);
 
-          // Har 3 tadan biriga yorliq
           if (col % 3 === 0) {
             this.labelManager.attachLabel(prodModel, currentProduct);
           }
@@ -423,7 +403,6 @@ export class ShelvesManager {
             originalY: spawnY,
           });
 
-          // Orqadagi zaxira stoki (hech qanday bo'shliq qolmasligi uchun)
           const depthOffset = sideZ > 0 ? -0.14 : 0.14;
           const backCopy = ProductModelFactory.createProductModel(currentProduct);
           backCopy.position.set(posX, spawnY, posZ + depthOffset);
