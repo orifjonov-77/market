@@ -3,19 +3,18 @@ import * as THREE from 'three';
 /**
  * Haqiqiy KORZINKA Supermarketi Zali va Arxitekturasi:
  * - Oq-kulrang diagonal kafel va burchaklarida to'q romb toshlar
- * - Armstrong kassetali shifti, yorqin LED panellari, ventilyatsiya quvurlari
- * - Korzinka kassa zonalari (3 ta to'liq kassa: konveyer lentasi, monitor, to'lov terminali, tovar ajratkichlar)
- * - Kirish/chiqish avtomat shisha eshiklari
- * - Xarid savatlari va aravachalar to'plami (Shopping Carts & Baskets)
- * - Korzinka ustunlari va yo'naltiruvchi belgilari
+ * - Armstrong shifti, LED chiroqlar to'ri
+ * - Korzinka kassa zonalari (orqada, z = 14 da, yurishga xalaqit bermaydi)
+ * - Kirish/chiqish avtomat eshiklari va xarid aravachalari
+ * - Ortiqcha yo'lni to'suvchi xatoliklar olib tashlangan, zal keng va yorug'
  */
 export class StoreScene {
   public scene: THREE.Scene;
   public roomBounds = {
-    minX: -20,
-    maxX: 20,
-    minZ: -20,
-    maxZ: 20,
+    minX: -22,
+    maxX: 22,
+    minZ: -22,
+    maxZ: 22,
   };
 
   constructor(scene: THREE.Scene) {
@@ -27,7 +26,7 @@ export class StoreScene {
   }
 
   private createEnvironment(): void {
-    const roomSize = 44;
+    const roomSize = 46;
 
     // 1. ZAMIN (Yaltiroq toza supermarket kafel va romb naqshlari)
     const floorCanvas = document.createElement('canvas');
@@ -103,7 +102,7 @@ export class StoreScene {
     ceiling.position.y = 5.6;
     this.scene.add(ceiling);
 
-    // Shift ostidagi ventilyatsiya quvurlari (Ventilation ducts)
+    // Shift ostidagi ventilyatsiya quvurlari
     const ductMat = new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.8, roughness: 0.3 });
     const duct1 = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.35, roomSize, 24), ductMat);
     duct1.rotation.z = Math.PI / 2;
@@ -131,7 +130,6 @@ export class StoreScene {
     rWall.position.set(roomSize / 2, wallH / 2, 0);
     this.scene.add(rWall);
 
-    // Plintus
     const plinthMat = new THREE.MeshStandardMaterial({ color: 0x991b1b, roughness: 0.3 });
     const plinth = new THREE.Mesh(new THREE.BoxGeometry(roomSize, 0.3, 0.5), plinthMat);
     plinth.position.set(0, 0.15, -roomSize / 2 + 0.1);
@@ -139,10 +137,10 @@ export class StoreScene {
   }
 
   private createLighting(): void {
-    const ambient = new THREE.AmbientLight(0xffffff, 0.9);
+    const ambient = new THREE.AmbientLight(0xffffff, 0.95);
     this.scene.add(ambient);
 
-    const dirLight = new THREE.DirectionalLight(0xffffff, 0.6);
+    const dirLight = new THREE.DirectionalLight(0xffffff, 0.65);
     dirLight.position.set(12, 16, 12);
     dirLight.castShadow = true;
     dirLight.shadow.mapSize.width = 2048;
@@ -153,13 +151,13 @@ export class StoreScene {
     const lampGeo = new THREE.BoxGeometry(1.4, 0.04, 1.4);
     const lampMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
 
-    [-12, -6, 0, 6, 12].forEach((x) => {
-      [-12, -6, 0, 6, 12].forEach((z) => {
+    [-14, -7, 0, 7, 14].forEach((x) => {
+      [-14, -7, 0, 7, 14].forEach((z) => {
         const lamp = new THREE.Mesh(lampGeo, lampMat);
         lamp.position.set(x, 5.58, z);
         this.scene.add(lamp);
 
-        const pLight = new THREE.PointLight(0xfffaed, 0.35, 12, 1.3);
+        const pLight = new THREE.PointLight(0xfffaed, 0.4, 14, 1.3);
         pLight.position.set(x, 5.2, z);
         this.scene.add(pLight);
       });
@@ -167,28 +165,24 @@ export class StoreScene {
   }
 
   /**
-   * KORZINKA KASSA ZONASI (3 ta to'liq kassa stoli: konveyer, skaner, terminal)
+   * KASSA ZONASI (Devor oldida, o'tish yo'laklariga xalaqit bermaydi)
    */
   private createKorzinkaCheckouts(): void {
     const counterMat = new THREE.MeshStandardMaterial({ color: 0x991b1b, roughness: 0.3 });
-    const topMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.2 });
     const beltMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.6 });
 
-    [-5, 0, 5].forEach((posX, idx) => {
+    [-6, 0, 6].forEach((posX) => {
       const deskGroup = new THREE.Group();
-      deskGroup.position.set(posX, 0, 15);
+      deskGroup.position.set(posX, 0, 16.5);
 
-      // Kassa stoli
-      const desk = new THREE.Mesh(new THREE.BoxGeometry(3.6, 1.0, 1.2), counterMat);
+      const desk = new THREE.Mesh(new THREE.BoxGeometry(3.6, 1.0, 1.1), counterMat);
       desk.position.set(0, 0.5, 0);
       deskGroup.add(desk);
 
-      // Konveyer tasmasi
-      const belt = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.04, 0.6), beltMat);
+      const belt = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.04, 0.5), beltMat);
       belt.position.set(-0.5, 1.02, 0);
       deskGroup.add(belt);
 
-      // Kassir monitori
       const monitor = new THREE.Mesh(
         new THREE.BoxGeometry(0.65, 0.45, 0.06),
         new THREE.MeshStandardMaterial({ color: 0x0f172a })
@@ -197,31 +191,21 @@ export class StoreScene {
       monitor.rotation.y = Math.PI;
       deskGroup.add(monitor);
 
-      // Shtrix-kod skaneri va to'lov terminali
       const posTerminal = new THREE.Mesh(
         new THREE.BoxGeometry(0.25, 0.12, 0.18),
         new THREE.MeshStandardMaterial({ color: 0x2563eb })
       );
-      posTerminal.position.set(1.1, 1.08, 0.35);
+      posTerminal.position.set(1.1, 1.08, 0.3);
       deskGroup.add(posTerminal);
-
-      // Kassa raqami (KASSA 1, KASSA 2, KASSA 3)
-      const numPlate = new THREE.Mesh(
-        new THREE.BoxGeometry(0.8, 0.4, 0.05),
-        new THREE.MeshStandardMaterial({ color: 0xdc2626 })
-      );
-      numPlate.position.set(1.2, 2.2, 0);
-      deskGroup.add(numPlate);
 
       this.scene.add(deskGroup);
     });
   }
 
   /**
-   * AVTOMATIK SHISHA ESHIKLAR VA XARID SAVATCHALARI
+   * ESHIK VA ARAVACHALAR
    */
   private createEntranceAndCarts(): void {
-    // Kirish va chiqish avtomat shisha eshiklari (Z = 19 da)
     const frameMat = new THREE.MeshStandardMaterial({ color: 0x991b1b, metalness: 0.5 });
     const glassMat = new THREE.MeshStandardMaterial({
       color: 0x38bdf8,
@@ -231,25 +215,24 @@ export class StoreScene {
     });
 
     const doorFrame = new THREE.Mesh(new THREE.BoxGeometry(6.0, 3.4, 0.2), frameMat);
-    doorFrame.position.set(0, 1.7, 19);
+    doorFrame.position.set(0, 1.7, 21.5);
     this.scene.add(doorFrame);
 
     const doorGlass = new THREE.Mesh(new THREE.BoxGeometry(5.6, 3.0, 0.04), glassMat);
-    doorGlass.position.set(0, 1.7, 19);
+    doorGlass.position.set(0, 1.7, 21.5);
     this.scene.add(doorGlass);
 
-    // Xarid aravachalari qatori (Shopping Carts)
+    // Xarid aravachalari
     const cartMat = new THREE.MeshStandardMaterial({ color: 0xd1d5db, metalness: 0.8, roughness: 0.2 });
-    [-10, -9.2, -8.4].forEach((cartX) => {
+    [-12, -11.2, -10.4].forEach((cartX) => {
       const cart = new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.9, 0.9), cartMat);
-      cart.position.set(cartX, 0.45, 16.5);
+      cart.position.set(cartX, 0.45, 18);
       this.scene.add(cart);
     });
 
-    // Qizil xarid savatlari stendi (Korzinka red baskets)
     const basketMat = new THREE.MeshStandardMaterial({ color: 0xdc2626, roughness: 0.3 });
     const basketStand = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.8, 0.8), basketMat);
-    basketStand.position.set(10, 0.4, 16.5);
+    basketStand.position.set(11, 0.4, 18);
     this.scene.add(basketStand);
   }
 }
